@@ -6,8 +6,8 @@ Based off the [Ant Design Pro UI framework](https://github.com/ant-design/ant-de
 In addition to Ant Design Pro, we are also using JSON Server to run a fake REST API for storing the layouts and config of [React-Grid-Layout](https://github.com/STRML/react-grid-layout).
 
 ## Install & Run
-`npm install`
-`npm run json-server`
-`npm start`
+`npm install`<br />
+`npm run json-server`<br />
+`npm start`<br />
 
-_Note: to start both the back-end and front-end you may need to use sudo_
+_Note: in order to start JSON Server and the development server, you may need to use __sudo___

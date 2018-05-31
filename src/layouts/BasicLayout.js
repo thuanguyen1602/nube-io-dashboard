@@ -87,7 +87,7 @@ const query = {
 let isMobile;
 let isTablet;
 const mobileQuery = 'only screen and (max-width: 768px)';
-const tabletQuery = 'only screen and (max-width: 992px)'; 
+const tabletQuery = 'only screen and (max-width: 992px)';
 enquireScreen(mobile => {
   isMobile = mobile;
 }, mobileQuery);
@@ -104,21 +104,21 @@ class BasicLayout extends React.PureComponent {
 
   state = {
     isMobile,
-    isTablet
+    isTablet,
   };
 
   getChildContext() {
     const { location, routerData } = this.props;
     return {
       location,
-      breadcrumbNameMap: getBreadcrumbNameMap(getMenuData(), routerData)
+      breadcrumbNameMap: getBreadcrumbNameMap(getMenuData(), routerData),
     };
   }
 
   componentWillMount() {
     this.props.dispatch({
       type: 'global/changeRangePickerValue',
-      payload: getTimeDistance('month')
+      payload: getTimeDistance('month'),
     });
   }
 
@@ -126,19 +126,19 @@ class BasicLayout extends React.PureComponent {
     this.mobileEnquireHandler = enquireScreen(mobile => {
       console.log('isMobile:', mobile);
       this.setState({
-        isMobile: mobile
+        isMobile: mobile,
       });
     }, mobileQuery);
 
     this.tabletEnquireHandler = enquireScreen(tablet => {
       console.log('isTablet:', tablet);
       this.setState({
-        isTablet: tablet
+        isTablet: tablet,
       });
     }, tabletQuery);
 
     this.props.dispatch({
-      type: 'user/fetchCurrent'
+      type: 'user/fetchCurrent',
     });
   }
 
@@ -175,10 +175,9 @@ class BasicLayout extends React.PureComponent {
     } else {
       const { routerData } = this.props;
       // get the first authorized route path in routerData
-      const authorizedPath = Object.keys(routerData).find(
-        item => check(routerData[item].authority, item) && item !== '/'
+      return Object.keys(routerData).find(
+        item => check(routerData[item].authority, item) && item !== '/',
       );
-      return authorizedPath;
     }
     return redirect;
   };
@@ -186,7 +185,7 @@ class BasicLayout extends React.PureComponent {
   handleMenuCollapse = collapsed => {
     this.props.dispatch({
       type: 'global/changeLayoutCollapsed',
-      payload: collapsed
+      payload: collapsed,
     });
   };
 
@@ -194,7 +193,7 @@ class BasicLayout extends React.PureComponent {
     message.success('Cleared Alerts');
     this.props.dispatch({
       type: 'global/clearAlerts',
-      payload: type
+      payload: type,
     });
   };
 
@@ -205,7 +204,7 @@ class BasicLayout extends React.PureComponent {
     }
     if (key === 'logout') {
       this.props.dispatch({
-        type: 'login/logout'
+        type: 'login/logout',
       });
     }
   };
@@ -213,7 +212,7 @@ class BasicLayout extends React.PureComponent {
   handleAlertVisibleChange = visible => {
     if (visible) {
       this.props.dispatch({
-        type: 'global/fetchAlerts'
+        type: 'global/fetchAlerts',
       });
     }
   };
@@ -222,7 +221,7 @@ class BasicLayout extends React.PureComponent {
     if (Array.isArray(rangePickerValue) && rangePickerValue.length > 0) {
       this.props.dispatch({
         type: 'global/changeRangePickerValue',
-        payload: rangePickerValue
+        payload: rangePickerValue,
       });
     }
   };
@@ -230,7 +229,7 @@ class BasicLayout extends React.PureComponent {
   selectDate = type => {
     this.props.dispatch({
       type: 'global/changeRangePickerValue',
-      payload: getTimeDistance(type)
+      payload: getTimeDistance(type),
     });
   };
 
@@ -265,22 +264,22 @@ class BasicLayout extends React.PureComponent {
     const rangePicker = (
       <div className={styles.rangePickerWrap}>
         {
-          !this.state.isTablet &&
-          <div className={styles.rangePicker}>
-            <a className={this.isActive('today')} onClick={() => this.selectDate('today')}>
-              Today
-            </a>
-            <a className={this.isActive('week')} onClick={() => this.selectDate('week')}>
-              This Week
-            </a>
-            <a className={this.isActive('month')} onClick={() => this.selectDate('month')}>
-              This Month
-            </a>
-            <a className={this.isActive('year')} onClick={() => this.selectDate('year')}>
-              This Year
-            </a>
-          </div>
-        }
+          !this.state.isTablet && (
+            <div className={styles.rangePicker}>
+              <a className={this.isActive('today')} onClick={() => this.selectDate('today')}>
+                Today
+              </a>
+              <a className={this.isActive('week')} onClick={() => this.selectDate('week')}>
+                This Week
+              </a>
+              <a className={this.isActive('month')} onClick={() => this.selectDate('month')}>
+                This Month
+              </a>
+              <a className={this.isActive('year')} onClick={() => this.selectDate('year')}>
+                This Year
+              </a>
+            </div>
+          )}
         <RangePicker
           value={rangePickerValue}
           format="DD-MM-YYYY"
@@ -366,5 +365,5 @@ export default connect(({ user, global, loading }) => ({
   collapsed: global.collapsed,
   fetchingAlerts: loading.effects['global/fetchAlerts'],
   alerts: global.alerts,
-  rangePickerValue: global.rangePickerValue
+  rangePickerValue: global.rangePickerValue,
 }))(BasicLayout);

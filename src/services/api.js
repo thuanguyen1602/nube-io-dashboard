@@ -103,11 +103,11 @@ export async function queryApartmentData(params) {
 }
 
 export async function queryGrid(params) {
-  return request('http://localhost:3000/grid');
+  return request('http://192.168.1.2:3000/grid');
 }
 
 export function postGrid(params) {
-  return request('http://localhost:3000/grid', {
+  return request('http://192.168.1.2:3000/grid', {
     method: 'POST',
     body: params,
   });

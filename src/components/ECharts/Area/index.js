@@ -63,7 +63,7 @@ class Area extends Component {
         }
       } else {
         for(let i = 0; i < yValues[Object.keys(yValues)[0]].length; i++) {
-          
+
           var newObj = {
             "Date": xValues[i]
           };
@@ -77,7 +77,7 @@ class Area extends Component {
           jsonData.push(newObj);
         }
       }
-      
+
       var json2csvParser = new Json2csv.Parser(['Date', yNames]);
 
       try {
@@ -86,7 +86,7 @@ class Area extends Component {
         FileSaver.saveAs(blob, `${fileName}.csv`);
       } catch (err) {
         alert("Error generating csv file.");
-      }          
+      }
     }
 
     var option = {
@@ -101,7 +101,7 @@ class Area extends Component {
         bottom: 0
       },
       dataZoom: {
-        type: 'inside'
+        type: 'inside',
       },
       color: colour,
       toolbox: {
@@ -111,26 +111,26 @@ class Area extends Component {
             type: ['stack', 'tiled'],
             title: {
               stack: 'stack',
-              tiled: 'tile'
-            }
+              tiled: 'tile',
+            },
           },
           restore: {
-            title: 'reset view'
+            title: 'reset view',
           },
           saveAsImage: {
             type: 'png',
             name: fileName,
-            title: 'image'
+            title: 'image',
           },
-        }
+        },
       },
       tooltip: {
         trigger: 'axis',
         axisPointer: {
-          type: 'cross'
+          type: 'cross',
         },
         formatter: function (params) {
-          var tooltipHTML = `${params[0].name}<br />`;
+          let tooltipHTML = `${params[0].name}<br />`;
           tooltipHTML += params.map(function(param) {
             return (
               `${param.marker}${param.seriesName}: ${numeral(param.value).format('0,0')} ${unit}<br />`
