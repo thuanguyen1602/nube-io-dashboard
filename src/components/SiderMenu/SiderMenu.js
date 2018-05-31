@@ -73,8 +73,7 @@ export default class SiderMenu extends PureComponent {
     return keys;
   }
   /**
-   * 判断是否是http链接.返回 Link 或 a
-   * Judge whether it is http link.return a or Link
+   * Determine whether it's an http link. return a or Link
    * @memberof SiderMenu
    */
   getMenuItemPath = item => {
@@ -114,7 +113,7 @@ export default class SiderMenu extends PureComponent {
   getSubMenuOrItem = item => {
     if (item.children && item.children.some(child => child.name)) {
       const childrenItems = this.getNavMenuItems(item.children);
-      // 当无子菜单时就不展示菜单
+      // Don't show menus when there are no submenus
       if (childrenItems && childrenItems.length > 0) {
         return (
           <SubMenu
@@ -140,7 +139,7 @@ export default class SiderMenu extends PureComponent {
     }
   };
   /**
-   * 获得菜单子节点
+   * Get menu subnode
    * @memberof SiderMenu
    */
   getNavMenuItems = menusData => {
@@ -161,8 +160,7 @@ export default class SiderMenu extends PureComponent {
     const { location: { pathname } } = this.props;
     return urlToList(pathname).map(itemPath => getMeunMatcheys(this.flatMenuKeys, itemPath).pop());
   };
-  // conversion Path
-  // 转化路径
+  // Conversion path
   conversionPath = path => {
     if (path && path.indexOf('http') === 0) {
       return path;

@@ -5,28 +5,27 @@ import numeral from 'numeral';
 
 class Doughnut extends Component {
   render() {
-    var {
+    const {
       title = '',
       name = '',
-      names = ['Peak', 'Off-Peak', 'Shoulder'],
-      values = {
-        peak: 0, 
-        offPeak: 0,
-        shoulder: 0,
-      },
-      range,
+      names = '',
+      values = {},
       unit = '',
       colour = ['#339999','#333333', '#fbbc07', '#666666'],
+      style = {},
     } = this.props;
 
-    // TO REMOVE - Random data generation based on date range
-    var startDate = moment(range[0]);
-    var endDate = moment(range[1]);
-    var numDays = Math.abs(startDate.diff(endDate, 'days')) + 1;
+    const data = [];
+    const reducer = (accumulator, currentValue) => accumulator + currentValue;
 
-    values.peak = parseFloat(((Math.random() * 200 * numDays) + 500 * numDays).toFixed(2));
-    values.offPeak = parseFloat(((Math.random() * 200 * numDays) + 100 * numDays).toFixed(2));
-    values.shoulder = parseFloat(((Math.random() * 200 * numDays) + 200 * numDays).toFixed(2));
+    let i = 0;
+    for (let prop in values) {
+      data.push({
+        value: values[prop].reduce(reducer), 
+        name: names[i]
+      });
+      i++;
+    }
 
     var imgName = "";
 
@@ -38,12 +37,11 @@ class Doughnut extends Component {
 
     var option = {
       tooltip: {
-        trigger: 'item',
         formatter: function (params) {
           return (
-            params.name + '<br/>' +
-            numeral(params.value).format('0,0') + ' ' + unit  + '<br/>' +
-            params.percent + '%'
+            `${params.name}<br />
+            ${params.percent} %<br />
+            ${params.marker}${numeral(params.value).format('0,0')} ${unit}`
           );
         },
       },
@@ -81,11 +79,7 @@ class Doughnut extends Component {
               show: false
             }
         },
-        data:[
-        {value:values.peak, name:names[0]},
-        {value:values.offPeak, name:names[1]},
-        {value:values.shoulder, name:names[2]},
-        ]
+        data: data
       }
     };
 
@@ -95,6 +89,7 @@ class Doughnut extends Component {
         <ReactEcharts
           option={option}
           theme='standard'
+          style={style}
         />
       </Fragment>
     );

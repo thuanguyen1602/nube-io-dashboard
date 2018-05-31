@@ -5,32 +5,45 @@ import numeral from 'numeral';
 class Guage extends Component {
   render() {
     var {
+      title = '',
       name = '',
-      unit = '',
-      value = 0,
-      time = null,
       min = 0,
       max = 400,
+      value = 0,
+      radius = '90%',
       splitNumber = 6,
+      unit = '',
       colour = [[0.2, '#339999'], [0.8, '#333333'], [1.0, '#fbbc07']],
+      style = {}
     } = this.props;
 
     value = (Math.random() * max).toFixed(0);
 
     var option = {
+      title: {
+        text: title,
+        textStyle: {
+          fontWeight: 'normal'
+        }
+      },
       tooltip: {
-        formatter: "{a} <br/>{c} {b}"
+        formatter: function (params) {
+          return (
+            `${params.seriesName}<br />
+            ${numeral(params.value).format('0,0')} ${unit}`
+          );
+        }
       },
       grid: {
         left: 50,
         right: 50
       },
       series: {
-        name: 'Current Usage',
+        name: title,
         type: 'gauge',
         detail: {
           formatter: function (value) {
-            return numeral(value).format('0,0') + ' ' + unit;
+            return `${numeral(value).format('0,0')} ${unit}`;
           },
           fontSize: 16,
           fontWeight: 'bolder'
@@ -38,7 +51,7 @@ class Guage extends Component {
         min: min,
         max: max,
         splitNumber: splitNumber,
-        radius: '100%',
+        radius: radius,
         axisLine: {
           lineStyle: {
             color: colour,
@@ -80,6 +93,7 @@ class Guage extends Component {
         <ReactEcharts
           option={option}
           theme='standard'
+          style={style}
         />
       </Fragment>
     );

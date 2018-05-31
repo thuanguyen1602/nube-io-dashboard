@@ -20,6 +20,7 @@ const codeMessage = {
   503: 'The server is currently unable to handle the request due to a temporary overloading or maintenance of the server.',
   504: 'The server was acting as a gateway or proxy and did not receive a timely response from the upstream server.',
 };
+
 function checkStatus(response) {
   if (response.status >= 200 && response.status < 300) {
     return response;

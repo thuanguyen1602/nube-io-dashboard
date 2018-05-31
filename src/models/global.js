@@ -5,6 +5,7 @@ export default {
 
   state: {
     collapsed: false,
+    rangePickerValue: [],
     alerts: [],
   },
 
@@ -44,6 +45,12 @@ export default {
       return {
         ...state,
         alerts: payload,
+      };
+    },
+    changeRangePickerValue(state, { payload }) {
+      return {
+        ...state,
+        rangePickerValue: payload,
       };
     },
     saveClearedAlerts(state, { payload }) {

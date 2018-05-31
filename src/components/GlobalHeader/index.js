@@ -12,6 +12,7 @@ export default class GlobalHeader extends PureComponent {
   componentWillUnmount() {
     this.triggerResizeEvent.cancel();
   }
+
   getAlertData() {
     const { alerts = [] } = this.props;
     if (alerts.length === 0) {
@@ -42,11 +43,13 @@ export default class GlobalHeader extends PureComponent {
     });
     return newAlerts;
   }
+
   toggle = () => {
     const { collapsed, onCollapse } = this.props;
     onCollapse(!collapsed);
     this.triggerResizeEvent();
   };
+
   /* eslint-disable*/
   @Debounce(600)
   triggerResizeEvent() {
@@ -54,6 +57,7 @@ export default class GlobalHeader extends PureComponent {
     event.initEvent('resize', true, false);
     window.dispatchEvent(event);
   }
+
   render() {
     const {
       currentUser = {},
@@ -63,8 +67,10 @@ export default class GlobalHeader extends PureComponent {
       logo,
       onAlertVisibleChange,
       onMenuClick,
-      onAlertClear
+      onAlertClear,
+      rangePicker
     } = this.props;
+
     const menu = (
       <Menu className={styles.menu} selectedKeys={[]} onClick={onMenuClick}>
         <Menu.Item key="logout">
@@ -72,7 +78,9 @@ export default class GlobalHeader extends PureComponent {
         </Menu.Item>
       </Menu>
     );
+
     const alertData = this.getAlertData();
+
     return (
       <div className={styles.header}>
         {isMobile && [
@@ -87,6 +95,7 @@ export default class GlobalHeader extends PureComponent {
           onClick={this.toggle}
         />
         <div className={styles.right}>
+          {rangePicker}
           <NoticeIcon
             className={styles.action}
             count={currentUser.notifyCount}

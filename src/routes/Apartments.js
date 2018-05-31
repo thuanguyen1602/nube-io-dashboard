@@ -19,7 +19,6 @@ import {
   Divider,
 } from 'antd';
 import StandardTable from 'components/StandardTable';
-import PageHeaderLayout from '../layouts/PageHeaderLayout';
 import { getTimeDistance, randInt } from '../utils/utils';
 
 import styles from './Apartments.less';

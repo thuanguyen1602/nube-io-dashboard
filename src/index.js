@@ -11,9 +11,15 @@ import './rollbar';
 
 import './index.less';
 // 1. Initialize
+// const app = dva({
+//   history: createHistory(),
+// });
 const app = dva({
   history: createHistory(),
-});
+  onError (e, dispatch) {
+    console.log('e', e)
+  }
+})
 
 // 2. Plugins
 app.use(createLoading());

@@ -4,80 +4,86 @@ import { Button } from 'antd';
 import moment from 'moment';
 import Json2csv from 'json2csv';
 import FileSaver from 'file-saver';
+import numeral from 'numeral';
 
 class Area extends Component {
   render() {
-    // Need to change back to const after setting up API for data
-    var {
+    const {
       title = '',
-      xName = '',
-      yName = '',
-      yNames = ['Peak', 'Off-Peak', 'Shoulder'],
+      fileName = 'download',
+      xTitle = '',
+      yTitle = '',
+      datasets = 1,
       xValues = [],
-      yValues = {
-        peak: [],
-        offPeak: [],
-        shoulder: [],
-      },
-      range,
-      unit,
+      yValues = [],
+      yNames = [],
+      xNames = [],
+      unit = '',
       colour = ['#339999','#333333', '#fbbc07', '#666666'],
+      style = {},
+      exportCsv = true
     } = this.props;
 
-    // TO REMOVE - Random data generation based on date range
-    var startDate = moment(range[0]);
-    var endDate = moment(range[1]);
-    var numDays = Math.abs(startDate.diff(endDate, 'days')) + 1;
-    var day = startDate.startOf('day');
+    var series = [];
+    var showMagicType = true;
 
-    for (var i = 0; i < numDays; i++) {
-      xValues.push(day.format("DD-MM-YYYY"));
-      day = moment(day.add(1, 'day'));
-      yValues.peak.push(((Math.random() * 200) + 500).toFixed(2));
-      yValues.offPeak.push(((Math.random() * 200) + 100).toFixed(2));
-      yValues.shoulder.push(((Math.random() * 200) + 200).toFixed(2));
-    }
-
-    var itemStyle = {
-      normal: {},
-      emphasis: {
-        barBorderWidth: 1,
-        shadowBlur: 10,
-        shadowOffsetX: 0,
-        shadowOffsetY: 0,
-        shadowColor: 'rgba(0,0,0,0.5)'
-      }
-    };
-
-    var csvName = "";
-    var imgName = "";
-
-    if(title) {
-      csvName = title + ".csv";
-      imgName = title;
+    if(datasets === 1) {
+      showMagicType = false;
+      series.push({
+        name: yNames,
+        type: 'line',
+        areaStyle: {opacity: 1},
+        smooth: true,
+        data: yValues
+      });
     } else {
-      csvName = "download.csv";
-      imgName = "download";
+      let i = 0;
+      for (var prop in yValues) {
+        series.push({
+          name: yNames[i],
+          type: 'line',
+          stack: 'stackGroupOne',
+          areaStyle: {opacity: 1},
+          smooth: true,
+          data: yValues[prop]
+        });
+        i++;
+      }
     }
 
     function generateCsv() {
       var jsonData = [];
 
-      for(let i = 0; i < yValues.peak.length; i++){
-        jsonData.push({
-          'Date': xValues[i],
-          'Peak': yValues.peak[i],
-          'Off-Peak': yValues.offPeak[i],
-          'Shoulder': yValues.shoulder[i]
-        });
-      }
+      if(datasets === 1) {
+        for(let i = 0; i < yValues.length; i++){
+          jsonData.push({
+            "Date": xValues[i],
+            [yNames]: yValues[i],
+          });
+        }
+      } else {
+        for(let i = 0; i < yValues[Object.keys(yValues)[0]].length; i++) {
+          
+          var newObj = {
+            "Date": xValues[i]
+          };
 
-      var json2csvParser = new Json2csv.Parser([xName, yNames]);
+          let j = 0;
+          for(var prop in yValues) {
+            newObj[yNames[j]] = yValues[prop][i];
+            j++;
+          }
+
+          jsonData.push(newObj);
+        }
+      }
+      
+      var json2csvParser = new Json2csv.Parser(['Date', yNames]);
 
       try {
         var csv = json2csvParser.parse(jsonData);
         var blob = new Blob([csv], {type: "text/plain;charset=utf-8"});
-        FileSaver.saveAs(blob, csvName);
+        FileSaver.saveAs(blob, `${fileName}.csv`);
       } catch (err) {
         alert("Error generating csv file.");
       }          
@@ -88,12 +94,6 @@ class Area extends Component {
         text: title,
         textStyle: {
           fontWeight: 'normal'
-        }
-      },
-      tooltip : {
-        trigger: 'axis',
-        axisPointer: {
-          type: 'cross',
         }
       },
       legend: {
@@ -107,6 +107,7 @@ class Area extends Component {
       toolbox: {
         feature: {
           magicType: {
+            show: showMagicType,
             type: ['stack', 'tiled'],
             title: {
               stack: 'stack',
@@ -118,56 +119,47 @@ class Area extends Component {
           },
           saveAsImage: {
             type: 'png',
-            name: imgName,
+            name: fileName,
             title: 'image'
           },
         }
       },
+      tooltip: {
+        trigger: 'axis',
+        axisPointer: {
+          type: 'cross'
+        },
+        formatter: function (params) {
+          var tooltipHTML = `${params[0].name}<br />`;
+          tooltipHTML += params.map(function(param) {
+            return (
+              `${param.marker}${param.seriesName}: ${numeral(param.value).format('0,0')} ${unit}<br />`
+            )
+          }).join('');
+          return tooltipHTML;
+        }
+      },
       xAxis:   {
         data: xValues,
-        name: xName,
+        name: xTitle,
       },
       yAxis: {
-        name: xName,
+        name: yTitle,
       },
       grid: {
         left: 50,
         right: 50
       },
-      series: [
-      {
-        name: yNames[0],
-        type:'line',
-        stack: 'stackGroupOne',
-        areaStyle: {normal: {}},
-        smooth: true,
-        data: yValues.peak
-      },
-      {
-        name: yNames[1],
-        type:'line',
-        stack: 'stackGroupOne',
-        areaStyle: {normal: {}},
-        smooth: true,
-        data: yValues.offPeak
-      },
-      {
-        name: yNames[2],
-        type:'line',
-        stack: 'stackGroupOne',
-        areaStyle: {normal: {}},
-        smooth: true,
-        data: yValues.shoulder
-      }
-      ]
+      series: series
     };
 
     return (
       <Fragment>
-        <Button icon="download" size={"small"} onClick={generateCsv} style={{float:'right', zIndex:100}}>Export CSV</Button>
+        {exportCsv && <Button icon="download" size={"small"} onClick={generateCsv} style={{float:'right', zIndex:100}}>Export CSV</Button>}
         <ReactEcharts
           option={option}
           theme='standard'
+          style={style}
         />
       </Fragment>
     );

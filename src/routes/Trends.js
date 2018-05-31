@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { connect } from 'dva';
 import { Card } from 'antd';
-import ReactGridLayout from 'components/ReactGridLayout';
+import ReactGridLayoutTest from 'components/ReactGridLayout';
 
 export default class Trends extends Component {
 
@@ -10,7 +10,7 @@ export default class Trends extends Component {
       <Fragment>
         <Card bordered={false} bodyStyle={{ padding: 0 }}>
         </Card>
-        <ReactGridLayout />
+        <ReactGridLayoutTest />
       </Fragment>
     );
   }

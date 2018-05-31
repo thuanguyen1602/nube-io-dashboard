@@ -101,3 +101,19 @@ export async function electricalData(params) {
 export async function queryApartmentData(params) {
   return request(`/api/apartment_data?${stringify(params)}`);
 }
+
+export async function queryGrid(params) {
+  return request('http://localhost:3000/grid');
+}
+
+export function postGrid(params) {
+  return request('http://localhost:3000/grid', {
+    method: 'POST',
+    body: params,
+  });
+}
+
+export async function httpGet(req) {
+  console.log(req);
+  return request(`${req.host}?${stringify(req.params)}`);
+}

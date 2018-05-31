@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
-import { Layout, Icon, message } from 'antd';
+import { Layout, Icon, message, DatePicker } from 'antd';
 import DocumentTitle from 'react-document-title';
 import { connect } from 'dva';
 import { Route, Redirect, Switch, routerRedux } from 'dva/router';
@@ -12,16 +12,18 @@ import GlobalHeader from '../components/GlobalHeader';
 import GlobalFooter from '../components/GlobalFooter';
 import SiderMenu from '../components/SiderMenu';
 import NotFound from '../routes/Exception/404';
-import { getRoutes } from '../utils/utils';
+import { getRoutes, getTimeDistance } from '../utils/utils';
 import Authorized from '../utils/Authorized';
 import { getMenuData } from '../common/menu';
 import bigLogo from '../assets/logo.png';
 import smallLogo from '../assets/logo-small.png';
+import styles from './BasicLayout.less';
 
 const logo = { big: bigLogo, small: smallLogo };
 
 const { Content, Header, Footer } = Layout;
 const { AuthorizedRoute, check } = Authorized;
+const { RangePicker } = DatePicker;
 
 /**
  * Get redirected address based on menu.
@@ -83,38 +85,68 @@ const query = {
 };
 
 let isMobile;
-enquireScreen(b => {
-  isMobile = b;
-});
+let isTablet;
+const mobileQuery = 'only screen and (max-width: 768px)';
+const tabletQuery = 'only screen and (max-width: 992px)'; 
+enquireScreen(mobile => {
+  isMobile = mobile;
+}, mobileQuery);
+
+enquireScreen(tablet => {
+  isTablet = tablet;
+}, mobileQuery);
 
 class BasicLayout extends React.PureComponent {
   static childContextTypes = {
     location: PropTypes.object,
     breadcrumbNameMap: PropTypes.object,
   };
+
   state = {
     isMobile,
+    isTablet
   };
+
   getChildContext() {
     const { location, routerData } = this.props;
     return {
       location,
-      breadcrumbNameMap: getBreadcrumbNameMap(getMenuData(), routerData),
+      breadcrumbNameMap: getBreadcrumbNameMap(getMenuData(), routerData)
     };
   }
-  componentDidMount() {
-    this.enquireHandler = enquireScreen(mobile => {
-      this.setState({
-        isMobile: mobile,
-      });
-    });
+
+  componentWillMount() {
     this.props.dispatch({
-      type: 'user/fetchCurrent',
+      type: 'global/changeRangePickerValue',
+      payload: getTimeDistance('month')
     });
   }
-  componentWillUnmount() {
-    unenquireScreen(this.enquireHandler);
+
+  componentDidMount() {
+    this.mobileEnquireHandler = enquireScreen(mobile => {
+      console.log('isMobile:', mobile);
+      this.setState({
+        isMobile: mobile
+      });
+    }, mobileQuery);
+
+    this.tabletEnquireHandler = enquireScreen(tablet => {
+      console.log('isTablet:', tablet);
+      this.setState({
+        isTablet: tablet
+      });
+    }, tabletQuery);
+
+    this.props.dispatch({
+      type: 'user/fetchCurrent'
+    });
   }
+
+  componentWillUnmount() {
+    unenquireScreen(this.mobileEnquireHandler);
+    unenquireScreen(this.tabletEnquireHandler);
+  }
+
   getPageTitle() {
     const { routerData, location } = this.props;
     const { pathname } = location;
@@ -131,6 +163,7 @@ class BasicLayout extends React.PureComponent {
     }
     return title;
   }
+
   getBashRedirect = () => {
     const urlParams = new URL(window.location.href);
 
@@ -149,19 +182,22 @@ class BasicLayout extends React.PureComponent {
     }
     return redirect;
   };
+
   handleMenuCollapse = collapsed => {
     this.props.dispatch({
       type: 'global/changeLayoutCollapsed',
-      payload: collapsed,
+      payload: collapsed
     });
   };
+
   handleAlertClear = type => {
     message.success('Cleared Alerts');
     this.props.dispatch({
       type: 'global/clearAlerts',
-      payload: type,
+      payload: type
     });
   };
+
   handleMenuClick = ({ key }) => {
     if (key === 'triggerError') {
       this.props.dispatch(routerRedux.push('/exception/trigger'));
@@ -169,17 +205,49 @@ class BasicLayout extends React.PureComponent {
     }
     if (key === 'logout') {
       this.props.dispatch({
-        type: 'login/logout',
+        type: 'login/logout'
       });
     }
   };
+
   handleAlertVisibleChange = visible => {
     if (visible) {
       this.props.dispatch({
-        type: 'global/fetchAlerts',
+        type: 'global/fetchAlerts'
       });
     }
   };
+
+  handleRangePickerChange = rangePickerValue => {
+    if (Array.isArray(rangePickerValue) && rangePickerValue.length > 0) {
+      this.props.dispatch({
+        type: 'global/changeRangePickerValue',
+        payload: rangePickerValue
+      });
+    }
+  };
+
+  selectDate = type => {
+    this.props.dispatch({
+      type: 'global/changeRangePickerValue',
+      payload: getTimeDistance(type)
+    });
+  };
+
+  isActive(type) {
+    const { rangePickerValue } = this.props;
+    const value = getTimeDistance(type);
+    if (!rangePickerValue || !rangePickerValue[0] || !rangePickerValue[1]) {
+      return;
+    }
+    if (
+      rangePickerValue[0].isSame(value[0], 'day') &&
+      rangePickerValue[1].isSame(value[1], 'day')
+    ) {
+      return styles.currentDate;
+    }
+  }
+
   render() {
     const {
       currentUser,
@@ -189,8 +257,39 @@ class BasicLayout extends React.PureComponent {
       routerData,
       match,
       location,
+      rangePickerValue,
     } = this.props;
+
     const bashRedirect = this.getBashRedirect();
+
+    const rangePicker = (
+      <div className={styles.rangePickerWrap}>
+        {
+          !this.state.isTablet &&
+          <div className={styles.rangePicker}>
+            <a className={this.isActive('today')} onClick={() => this.selectDate('today')}>
+              Today
+            </a>
+            <a className={this.isActive('week')} onClick={() => this.selectDate('week')}>
+              This Week
+            </a>
+            <a className={this.isActive('month')} onClick={() => this.selectDate('month')}>
+              This Month
+            </a>
+            <a className={this.isActive('year')} onClick={() => this.selectDate('year')}>
+              This Year
+            </a>
+          </div>
+        }
+        <RangePicker
+          value={rangePickerValue}
+          format="DD-MM-YYYY"
+          onChange={this.handleRangePickerChange}
+          style={{ width: 256 }}
+        />
+      </div>
+    );
+
     const layout = (
       <Layout>
         <SiderMenu
@@ -217,6 +316,7 @@ class BasicLayout extends React.PureComponent {
               onCollapse={this.handleMenuCollapse}
               onMenuClick={this.handleMenuClick}
               onAlertVisibleChange={this.handleAlertVisibleChange}
+              rangePicker={rangePicker}
             />
           </Header>
           <Content style={{ margin: '24px 24px 0', height: '100%' }}>
@@ -266,4 +366,5 @@ export default connect(({ user, global, loading }) => ({
   collapsed: global.collapsed,
   fetchingAlerts: loading.effects['global/fetchAlerts'],
   alerts: global.alerts,
+  rangePickerValue: global.rangePickerValue
 }))(BasicLayout);
