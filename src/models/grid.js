@@ -5,8 +5,14 @@ export default {
   namespace: 'grid',
 
   state: {
-    layouts: {},
-    items: {},
+    layouts: {
+      lg: [],
+      md: [],
+      sm: [],
+      xs: [],
+      xxs: [],
+    },
+    items: [],
   },
 
   effects: {
@@ -32,8 +38,14 @@ export default {
     },
     clearState() {
       return {
-        layouts: {},
-        items: {},
+        layouts: {
+          lg: [],
+          md: [],
+          sm: [],
+          xs: [],
+          xxs: [],
+        },
+        items: [],
       };
     },
   },
