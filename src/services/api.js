@@ -82,28 +82,32 @@ export async function queryAlerts() {
 
 
 
-
-export async function usageData() {
-  return request('/api/usage_data');
-}
-
-
-
-
-export async function homeData(params) {
-  return request(`/api/home_data?${stringify(params)}`);
+export async function queryApartmentData(params) {
+  return request(`/api/apartment_data?${stringify(params)}`);
 }
 
 export async function electricalData(params) {
   return request(`/api/electrical_data?${stringify(params)}`);
 }
 
-export async function queryApartmentData(params) {
-  return request(`/api/apartment_data?${stringify(params)}`);
+export async function gasData(params) {
+  return request(`/api/water_data?${stringify(params)}`);
+}
+
+export async function homeData(params) {
+  return request(`/api/home_data?${stringify(params)}`);
+}
+
+export async function thermalData(params) {
+  return request(`/api/water_data?${stringify(params)}`);
+}
+
+export async function waterData(params) {
+  return request(`/api/water_data?${stringify(params)}`);
 }
 
 export async function queryGrid(params) {
-  return request('http://localhost:3000/grid');
+  return request(`http://localhost:3000/grid?${stringify(params)}`);
 }
 
 export function postGrid(params) {
@@ -114,6 +118,5 @@ export function postGrid(params) {
 }
 
 export async function httpGet(req) {
-  console.log(req);
-  return request(`${req.host}?${stringify(req.params)}`);
+  return request(`${req.api}?${stringify(req.params)}`);
 }

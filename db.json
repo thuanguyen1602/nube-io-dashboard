@@ -4,70 +4,88 @@
       "lg": [
         {
           "w": 8,
-          "h": 10,
-          "x": 4,
-          "y": 0,
-          "i": "8f84438d-fca3-4dfc-9b5d-f33c7a38642f",
-          "moved": false,
-          "static": false
-        },
-        {
-          "w": 4,
-          "h": 10,
+          "h": 8,
           "x": 0,
-          "y": 10,
-          "i": "30b6dd26-11cf-4cad-81cf-47046bba4bcc",
+          "y": 0,
+          "i": "bfb5be58-df84-4373-bc37-e13b5eb62f47",
           "moved": false,
           "static": false
         },
         {
           "w": 8,
-          "h": 10,
-          "x": 4,
-          "y": 10,
-          "i": "cea559d1-c12b-42fb-8c85-9dda0e59967e",
+          "h": 8,
+          "x": 16,
+          "y": 16,
+          "i": "a0aef9c3-a3fc-4380-9ec8-7be2d91a7848",
           "moved": false,
           "static": false
         },
         {
-          "w": 4,
-          "h": 10,
-          "x": 0,
+          "w": 8,
+          "h": 8,
+          "x": 8,
           "y": 0,
-          "i": "bfb5be58-df84-4373-bc37-e13b5eb62f47",
+          "i": "55d2f4f7-1adf-4a5a-bf29-6a8925d63a6f",
+          "moved": false,
+          "static": false
+        },
+        {
+          "w": 8,
+          "h": 8,
+          "x": 0,
+          "y": 8,
+          "i": "509c6b97-3b72-4aca-8026-dfeeb9d73e2d",
+          "moved": false,
+          "static": false
+        },
+        {
+          "w": 8,
+          "h": 8,
+          "x": 8,
+          "y": 8,
+          "i": "833e4920-baf4-41e3-b457-40dcd801ac3e",
+          "moved": false,
+          "static": false
+        },
+        {
+          "w": 8,
+          "h": 8,
+          "x": 0,
+          "y": 16,
+          "i": "09cef9d1-6db1-4c27-b7e1-01bdeaef5e68",
+          "moved": false,
+          "static": false
+        },
+        {
+          "w": 8,
+          "h": 8,
+          "x": 8,
+          "y": 16,
+          "i": "1dfa3ffa-c4ca-4f4b-9b0a-cef142eb8708",
+          "moved": false,
+          "static": false
+        },
+        {
+          "w": 8,
+          "h": 8,
+          "x": 16,
+          "y": 0,
+          "i": "de32dfdc-886d-40d4-836e-07414e79d3d9",
+          "moved": false,
+          "static": false
+        },
+        {
+          "w": 8,
+          "h": 8,
+          "x": 16,
+          "y": 8,
+          "i": "f2455fa7-acb6-4195-9574-4722004419ab",
           "moved": false,
           "static": false
         }
       ],
       "md": [
         {
-          "w": 8,
-          "h": 10,
-          "x": 2,
-          "y": 10,
-          "i": "8f84438d-fca3-4dfc-9b5d-f33c7a38642f",
-          "moved": false,
-          "static": false
-        },
-        {
-          "w": 4,
-          "h": 10,
-          "x": 0,
-          "y": 20,
-          "i": "30b6dd26-11cf-4cad-81cf-47046bba4bcc",
-          "moved": false,
-          "static": false
-        },
-        {
-          "w": 8,
-          "h": 10,
-          "x": 2,
-          "y": 36,
-          "i": "cea559d1-c12b-42fb-8c85-9dda0e59967e",
-          "moved": false,
-          "static": false
-        },
-        {
           "w": 4,
           "h": 10,
           "x": 0,
@@ -75,37 +93,66 @@
           "i": "bfb5be58-df84-4373-bc37-e13b5eb62f47",
           "moved": false,
           "static": false
+        },
+        {
+          "i": "a0aef9c3-a3fc-4380-9ec8-7be2d91a7848",
+          "x": 8,
+          "y": 0,
+          "w": 8,
+          "h": 8
+        },
+        {
+          "i": "55d2f4f7-1adf-4a5a-bf29-6a8925d63a6f",
+          "x": 4,
+          "y": 0,
+          "w": 8,
+          "h": 8
+        },
+        {
+          "i": "509c6b97-3b72-4aca-8026-dfeeb9d73e2d",
+          "x": 8,
+          "y": 0,
+          "w": 8,
+          "h": 8
+        },
+        {
+          "i": "833e4920-baf4-41e3-b457-40dcd801ac3e",
+          "x": 10,
+          "y": 0,
+          "w": 8,
+          "h": 8
+        },
+        {
+          "i": "09cef9d1-6db1-4c27-b7e1-01bdeaef5e68",
+          "x": 10,
+          "y": 0,
+          "w": 8,
+          "h": 8
+        },
+        {
+          "i": "1dfa3ffa-c4ca-4f4b-9b0a-cef142eb8708",
+          "x": 2,
+          "y": 0,
+          "w": 8,
+          "h": 8
+        },
+        {
+          "i": "de32dfdc-886d-40d4-836e-07414e79d3d9",
+          "x": 2,
+          "y": 0,
+          "w": 8,
+          "h": 8
+        },
+        {
+          "i": "f2455fa7-acb6-4195-9574-4722004419ab",
+          "x": 4,
+          "y": 0,
+          "w": 8,
+          "h": 8
         }
       ],
       "sm": [
         {
-          "w": 6,
-          "h": 10,
-          "x": 0,
-          "y": 10,
-          "i": "8f84438d-fca3-4dfc-9b5d-f33c7a38642f",
-          "moved": false,
-          "static": false
-        },
-        {
-          "w": 4,
-          "h": 10,
-          "x": 0,
-          "y": 20,
-          "i": "30b6dd26-11cf-4cad-81cf-47046bba4bcc",
-          "moved": false,
-          "static": false
-        },
-        {
-          "w": 6,
-          "h": 10,
-          "x": 0,
-          "y": 30,
-          "i": "cea559d1-c12b-42fb-8c85-9dda0e59967e",
-          "moved": false,
-          "static": false
-        },
-        {
           "w": 4,
           "h": 10,
           "x": 0,
@@ -113,6 +160,62 @@
           "i": "bfb5be58-df84-4373-bc37-e13b5eb62f47",
           "moved": false,
           "static": false
+        },
+        {
+          "i": "a0aef9c3-a3fc-4380-9ec8-7be2d91a7848",
+          "x": 0,
+          "y": 0,
+          "w": 8,
+          "h": 8
+        },
+        {
+          "i": "55d2f4f7-1adf-4a5a-bf29-6a8925d63a6f",
+          "x": 4,
+          "y": 0,
+          "w": 8,
+          "h": 8
+        },
+        {
+          "i": "509c6b97-3b72-4aca-8026-dfeeb9d73e2d",
+          "x": 0,
+          "y": 0,
+          "w": 8,
+          "h": 8
+        },
+        {
+          "i": "833e4920-baf4-41e3-b457-40dcd801ac3e",
+          "x": 2,
+          "y": 0,
+          "w": 8,
+          "h": 8
+        },
+        {
+          "i": "09cef9d1-6db1-4c27-b7e1-01bdeaef5e68",
+          "x": 2,
+          "y": 0,
+          "w": 8,
+          "h": 8
+        },
+        {
+          "i": "1dfa3ffa-c4ca-4f4b-9b0a-cef142eb8708",
+          "x": 6,
+          "y": 0,
+          "w": 8,
+          "h": 8
+        },
+        {
+          "i": "de32dfdc-886d-40d4-836e-07414e79d3d9",
+          "x": 6,
+          "y": 0,
+          "w": 8,
+          "h": 8
+        },
+        {
+          "i": "f2455fa7-acb6-4195-9574-4722004419ab",
+          "x": 0,
+          "y": 0,
+          "w": 8,
+          "h": 8
         }
       ],
       "xs": [
@@ -120,67 +223,69 @@
           "w": 4,
           "h": 10,
           "x": 0,
-          "y": 10,
-          "i": "8f84438d-fca3-4dfc-9b5d-f33c7a38642f",
-          "moved": false,
-          "static": false
-        },
-        {
-          "w": 4,
-          "h": 10,
-          "x": 0,
-          "y": 20,
-          "i": "30b6dd26-11cf-4cad-81cf-47046bba4bcc",
-          "moved": false,
-          "static": false
-        },
-        {
-          "w": 4,
-          "h": 10,
-          "x": 0,
-          "y": 30,
-          "i": "cea559d1-c12b-42fb-8c85-9dda0e59967e",
-          "moved": false,
-          "static": false
-        },
-        {
-          "w": 4,
-          "h": 10,
-          "x": 0,
           "y": 0,
           "i": "bfb5be58-df84-4373-bc37-e13b5eb62f47",
           "moved": false,
           "static": false
+        },
+        {
+          "i": "a0aef9c3-a3fc-4380-9ec8-7be2d91a7848",
+          "x": 0,
+          "y": 0,
+          "w": 8,
+          "h": 8
+        },
+        {
+          "i": "55d2f4f7-1adf-4a5a-bf29-6a8925d63a6f",
+          "x": 0,
+          "y": 0,
+          "w": 8,
+          "h": 8
+        },
+        {
+          "i": "509c6b97-3b72-4aca-8026-dfeeb9d73e2d",
+          "x": 0,
+          "y": 0,
+          "w": 8,
+          "h": 8
+        },
+        {
+          "i": "833e4920-baf4-41e3-b457-40dcd801ac3e",
+          "x": 2,
+          "y": 0,
+          "w": 8,
+          "h": 8
+        },
+        {
+          "i": "09cef9d1-6db1-4c27-b7e1-01bdeaef5e68",
+          "x": 2,
+          "y": 0,
+          "w": 8,
+          "h": 8
+        },
+        {
+          "i": "1dfa3ffa-c4ca-4f4b-9b0a-cef142eb8708",
+          "x": 2,
+          "y": 0,
+          "w": 8,
+          "h": 8
+        },
+        {
+          "i": "de32dfdc-886d-40d4-836e-07414e79d3d9",
+          "x": 2,
+          "y": 0,
+          "w": 8,
+          "h": 8
+        },
+        {
+          "i": "f2455fa7-acb6-4195-9574-4722004419ab",
+          "x": 0,
+          "y": 0,
+          "w": 8,
+          "h": 8
         }
       ],
       "xxs": [
-        {
-          "w": 2,
-          "h": 7,
-          "x": 0,
-          "y": 0,
-          "i": "8f84438d-fca3-4dfc-9b5d-f33c7a38642f",
-          "moved": false,
-          "static": false
-        },
-        {
-          "w": 2,
-          "h": 7,
-          "x": 0,
-          "y": 7,
-          "i": "30b6dd26-11cf-4cad-81cf-47046bba4bcc",
-          "moved": false,
-          "static": false
-        },
-        {
-          "w": 2,
-          "h": 8,
-          "x": 0,
-          "y": 14,
-          "i": "cea559d1-c12b-42fb-8c85-9dda0e59967e",
-          "moved": false,
-          "static": false
-        },
         {
           "w": 2,
           "h": 10,
@@ -189,85 +294,71 @@
           "i": "bfb5be58-df84-4373-bc37-e13b5eb62f47",
           "moved": false,
           "static": false
+        },
+        {
+          "i": "a0aef9c3-a3fc-4380-9ec8-7be2d91a7848",
+          "x": 0,
+          "y": 0,
+          "w": 8,
+          "h": 8
+        },
+        {
+          "i": "55d2f4f7-1adf-4a5a-bf29-6a8925d63a6f",
+          "x": 0,
+          "y": 0,
+          "w": 8,
+          "h": 8
+        },
+        {
+          "i": "509c6b97-3b72-4aca-8026-dfeeb9d73e2d",
+          "x": 0,
+          "y": 0,
+          "w": 8,
+          "h": 8
+        },
+        {
+          "i": "833e4920-baf4-41e3-b457-40dcd801ac3e",
+          "x": 0,
+          "y": 0,
+          "w": 8,
+          "h": 8
+        },
+        {
+          "i": "09cef9d1-6db1-4c27-b7e1-01bdeaef5e68",
+          "x": 0,
+          "y": 0,
+          "w": 8,
+          "h": 8
+        },
+        {
+          "i": "1dfa3ffa-c4ca-4f4b-9b0a-cef142eb8708",
+          "x": 0,
+          "y": 0,
+          "w": 8,
+          "h": 8
+        },
+        {
+          "i": "de32dfdc-886d-40d4-836e-07414e79d3d9",
+          "x": 0,
+          "y": 0,
+          "w": 8,
+          "h": 8
+        },
+        {
+          "i": "f2455fa7-acb6-4195-9574-4722004419ab",
+          "x": 0,
+          "y": 0,
+          "w": 8,
+          "h": 8
         }
       ]
     },
     "items": [
       {
-        "i": "8f84438d-fca3-4dfc-9b5d-f33c7a38642f",
-        "component": {
-          "type": "Area",
-          "props": {
-            "title": "Per Day Usage",
-            "fileName": "Electrical Usage",
-            "datasets": 3,
-            "yNames": [
-              "Peak",
-              "Off-Peak",
-              "Shoulder"
-            ],
-            "unit": "kWh",
-            "style": {
-              "height": "100%",
-              "width": "100%"
-            },
-            "exportCsv": false,
-            "host": "http://localhost:3000/chart"
-          }
-        }
-      },
-      {
-        "i": "30b6dd26-11cf-4cad-81cf-47046bba4bcc",
-        "component": {
-          "type": "Bar",
-          "props": {
-            "title": "Per Day Usage",
-            "fileName": "Electrical Usage",
-            "datasets": 3,
-            "yNames": [
-              "Peak",
-              "Off-Peak",
-              "Shoulder"
-            ],
-            "unit": "kWh",
-            "style": {
-              "height": "100%",
-              "width": "100%"
-            },
-            "exportCsv": false,
-            "host": "http://localhost:3000/chart"
-          }
-        }
-      },
-      {
-        "i": "cea559d1-c12b-42fb-8c85-9dda0e59967e",
-        "component": {
-          "type": "Line",
-          "props": {
-            "title": "Per Day Usage",
-            "fileName": "Electrical Usage",
-            "datasets": 3,
-            "yNames": [
-              "Peak",
-              "Off-Peak",
-              "Shoulder"
-            ],
-            "unit": "kWh",
-            "style": {
-              "height": "100%",
-              "width": "100%"
-            },
-            "exportCsv": false,
-            "host": "http://localhost:3000/chart"
-          }
-        }
-      },
-      {
         "i": "bfb5be58-df84-4373-bc37-e13b5eb62f47",
         "component": {
           "type": "Guage",
           "props": {
-            "title": "Accumulated Usage",
             "name": "Kilowatts",
             "min": 0,
             "max": 600,
@@ -277,7 +368,184 @@
               "height": "100%",
               "width": "100%"
             },
-            "host": "http://localhost:3000/chart"
+            "api": "/api/home_data"
+          }
+        }
+      },
+      {
+        "i": "a0aef9c3-a3fc-4380-9ec8-7be2d91a7848",
+        "component": {
+          "type": "Guage",
+          "props": {
+            "datasets": 3,
+            "yNames": [
+              "Peak",
+              "Off-Peak",
+              "Shoulder"
+            ],
+            "style": {
+              "height": "100%",
+              "width": "100%"
+            },
+            "exportCsv": false,
+            "api": "/api/home_data"
+          }
+        }
+      },
+      {
+        "i": "55d2f4f7-1adf-4a5a-bf29-6a8925d63a6f",
+        "component": {
+          "type": "Bar",
+          "props": {
+            "title": "Daily Usage",
+            "fileName": "Electrical Daily Usage",
+            "datasets": 3,
+            "yNames": [
+              "Peak",
+              "Off-Peak",
+              "Shoulder"
+            ],
+            "unit": "kWh",
+            "style": {
+              "height": "100%",
+              "width": "100%"
+            },
+            "exportCsv": false,
+            "api": "/api/electrical_data"
+          }
+        }
+      },
+      {
+        "i": "509c6b97-3b72-4aca-8026-dfeeb9d73e2d",
+        "component": {
+          "type": "Bar",
+          "props": {
+            "title": "Daily Water Usage",
+            "fileName": "Daily Water Usage",
+            "datasets": 1,
+            "yNames": [
+              "Water"
+            ],
+            "unit": "kL",
+            "style": {
+              "height": "100%",
+              "width": "100%"
+            },
+            "exportCsv": false,
+            "api": "/api/water_data"
+          }
+        }
+      },
+      {
+        "i": "833e4920-baf4-41e3-b457-40dcd801ac3e",
+        "component": {
+          "type": "Area",
+          "props": {
+            "title": "Daily Gas Usage",
+            "fileName": "Daily Gas Usage",
+            "datasets": 1,
+            "yNames": [
+              "Gas"
+            ],
+            "unit": "MJ",
+            "style": {
+              "height": "100%",
+              "width": "100%"
+            },
+            "exportCsv": false,
+            "api": "/api/gas_data"
+          }
+        }
+      },
+      {
+        "i": "09cef9d1-6db1-4c27-b7e1-01bdeaef5e68",
+        "component": {
+          "type": "Bar",
+          "props": {
+            "title": "Daily Thermal Usage",
+            "fileName": "Daily Thermal Usage",
+            "datasets": 1,
+            "yNames": [
+              "Thermal"
+            ],
+            "unit": "kW",
+            "colour": "#fbbc07",
+            "style": {
+              "height": "100%",
+              "width": "100%"
+            },
+            "exportCsv": false,
+            "api": "/api/thermal_data"
+          }
+        }
+      },
+      {
+        "i": "1dfa3ffa-c4ca-4f4b-9b0a-cef142eb8708",
+        "component": {
+          "type": "Bar",
+          "props": {
+            "title": "Daily Electrical Usage",
+            "fileName": "Daily Electrical Usage",
+            "datasets": 3,
+            "yNames": [
+              "Peak",
+              "Off-Peak",
+              "Shoulder"
+            ],
+            "unit": "kWh",
+            "colour": [
+              "#339999",
+              "#333333",
+              "#fbbc07"
+            ],
+            "style": {
+              "height": "100%",
+              "width": "100%"
+            },
+            "exportCsv": false,
+            "api": "/api/electrical_data"
+          }
+        }
+      },
+      {
+        "i": "de32dfdc-886d-40d4-836e-07414e79d3d9",
+        "component": {
+          "type": "Line",
+          "props": {
+            "datasets": 1,
+            "yNames": [
+              "gas"
+            ],
+            "colour": [
+              "#339999"
+            ],
+            "style": {
+              "height": "100%",
+              "width": "100%"
+            },
+            "exportCsv": false,
+            "api": "/api/gas_data"
+          }
+        }
+      },
+      {
+        "i": "f2455fa7-acb6-4195-9574-4722004419ab",
+        "component": {
+          "type": "Bar",
+          "props": {
+            "datasets": 1,
+            "yNames": [
+              "water"
+            ],
+            "colour": [
+              "#333333"
+            ],
+            "style": {
+              "height": "100%",
+              "width": "100%"
+            },
+            "exportCsv": false,
+            "api": "/api/water_data"
           }
         }
       }

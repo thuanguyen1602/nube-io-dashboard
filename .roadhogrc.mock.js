@@ -7,10 +7,12 @@ import { getProfileAdvancedData } from './mock/profile';
 import { getAlerts } from './mock/alerts';
 import { format, delay } from 'roadhog-api-doc';
 
-import { getUsageData } from './mock/usage';
-import { getElectricalData } from './mock/electrical';
-import { getHomeData } from './mock/home';
 import { getApartmentData } from './mock/apartments';
+import { getElectrical } from './mock/electrical';
+import { getGas } from './mock/gas';
+import { getHomeData } from './mock/home';
+import { getThermal } from './mock/thermal';
+import { getWater } from './mock/water';
 
 // disable proxy
 const noProxy = process.env.NO_PROXY === 'true';
@@ -141,16 +143,12 @@ const proxy = {
     });
   },
 
-
-
-
-
-  'GET /api/usage_data': getUsageData,
-
-  
-  'GET /api/home_data': getHomeData,
-  'GET /api/electrical_data': getElectricalData,
   'GET /api/apartment_data': getApartmentData,
+  'GET /api/electrical_data': getElectrical,
+  'GET /api/gas_data': getGas,
+  'GET /api/home_data': getHomeData,
+  'GET /api/thermal_data': getThermal,
+  'GET /api/water_data': getWater,
 };
 
-export default (noProxy ? {} : delay(proxy, 200));
+export default (noProxy ? {} : delay(proxy, 1000));

@@ -8,7 +8,6 @@ export default {
     water: {},
     gas: {},
     thermal: {},
-    loading: false,
   },
 
   effects: {
@@ -34,7 +33,6 @@ export default {
         water: {},
         gas: {},
         thermal: {},
-        sumSeniorsLiving: 0,
       };
     },
   },

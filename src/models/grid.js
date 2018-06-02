@@ -1,12 +1,12 @@
-import { queryGrid, postGrid } from '../services/api';
 import { message } from 'antd';
+import { queryGrid, postGrid } from '../services/api';
 
 export default {
   namespace: 'grid',
 
   state: {
     layouts: {},
-    items: {}
+    items: {},
   },
 
   effects: {
@@ -22,7 +22,7 @@ export default {
       message.success('Saved!');
     },
   },
-  
+
   reducers: {
     updateState(state, { payload }) {
       return {
@@ -33,7 +33,7 @@ export default {
     clearState() {
       return {
         layouts: {},
-        items: {}
+        items: {},
       };
     },
   },

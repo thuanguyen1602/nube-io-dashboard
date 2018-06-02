@@ -1,5 +1,4 @@
-import { httpGet, httpPost } from '../services/api';
-import { message } from 'antd';
+import { httpGet } from '../services/api';
 
 export default {
   namespace: 'http',
@@ -8,11 +7,21 @@ export default {
 
   effects: {
     *fetch({ payload }, { call, put }) {
-      const response = yield call(httpGet, payload);
-      console.log('response', response);
       yield put({
         type: 'updateState',
-        payload: response,
+        payload: {
+          id: payload.id,
+          loading: true,
+        },
+      });
+      const response = yield call(httpGet, payload);
+      yield put({
+        type: 'updateState',
+        payload: {
+          id: payload.id,
+          loading: false,
+          response,
+        },
       });
     },
     // *post({ payload }, { call }) {
@@ -20,15 +29,18 @@ export default {
     //   message.success('Saved!');
     // },
   },
-  
+
   reducers: {
     updateState(state, { payload }) {
       return {
         ...state,
-        ...payload,
+        [payload.id]: {
+          loading: payload.loading,
+          ...payload.response,
+        },
       };
     },
-    clear() {
+    clearState() {
       return {};
     },
   },

@@ -11,7 +11,7 @@ class Doughnut extends Component {
       names = '',
       values = {},
       unit = '',
-      colour = ['#339999','#333333', '#fbbc07', '#666666'],
+      colour = ['#339999', '#333333', '#fbbc07', '#666666'],
       style = {},
     } = this.props;
 
@@ -21,76 +21,69 @@ class Doughnut extends Component {
     let i = 0;
     for (let prop in values) {
       data.push({
-        value: values[prop].reduce(reducer), 
-        name: names[i]
+        value: values[prop].reduce(reducer),
+        name: names[i],
       });
       i++;
     }
 
-    var imgName = "";
+    var imgName = '';
 
-    if(title) {
+    if (title) {
       imgName = title;
     } else {
-      imgName = "download";
+      imgName = 'download';
     }
 
     var option = {
       tooltip: {
-        formatter: function (params) {
-          return (
-            `${params.name}<br />
+        formatter: function(params) {
+          return `${params.name}<br />
             ${params.percent} %<br />
-            ${params.marker}${numeral(params.value).format('0,0')} ${unit}`
-          );
+            ${params.marker}${numeral(params.value).format('0,0')} ${unit}`;
         },
       },
       grid: {
         left: 50,
-        right: 50
+        right: 50,
       },
       legend: {
         data: names,
-        bottom: 0
+        bottom: 0,
       },
       color: colour,
       series: {
-        name:'Accumulated Tariffs',
-        type:'pie',
+        name: 'Accumulated Tariffs',
+        type: 'pie',
         radius: ['55%', '75%'],
         avoidLabelOverlap: false,
         label: {
           normal: {
-            show: true
+            show: true,
           },
           emphasis: {
             show: true,
             textStyle: {
               fontSize: '24',
-              fontWeight: 'bold'
-            }
-          }
+              fontWeight: 'bold',
+            },
+          },
         },
         lableLine: {
-            normal: {
-              show: true
-            },
-            emphasis: {
-              show: false
-            }
+          normal: {
+            show: true,
+          },
+          emphasis: {
+            show: false,
+          },
         },
-        data: data
-      }
+        data: data,
+      },
     };
-
 
     return (
       <Fragment>
-        <ReactEcharts
-          option={option}
-          theme='standard'
-          style={style}
-        />
+        <ReactEcharts option={option} theme="standard" style={style} />
       </Fragment>
     );
   }

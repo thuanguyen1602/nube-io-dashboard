@@ -19,57 +19,56 @@ class Area extends Component {
       yNames = [],
       xNames = [],
       unit = '',
-      colour = ['#339999','#333333', '#fbbc07', '#666666'],
+      colour = ['#339999', '#333333', '#fbbc07', '#666666'],
       style = {},
-      exportCsv = true
+      exportCsv = true,
     } = this.props;
 
-    var series = [];
-    var showMagicType = true;
+    const series = [];
+    let showMagicType = true;
 
-    if(datasets === 1) {
+    if (datasets === 1) {
       showMagicType = false;
       series.push({
         name: yNames,
         type: 'line',
-        areaStyle: {opacity: 1},
+        areaStyle: { opacity: 1 },
         smooth: true,
-        data: yValues
+        data: yValues,
       });
     } else {
       let i = 0;
-      for (var prop in yValues) {
+      for (const prop in yValues) {
         series.push({
           name: yNames[i],
           type: 'line',
           stack: 'stackGroupOne',
-          areaStyle: {opacity: 1},
+          areaStyle: { opacity: 1 },
           smooth: true,
-          data: yValues[prop]
+          data: yValues[prop],
         });
         i++;
       }
     }
 
     function generateCsv() {
-      var jsonData = [];
+      const jsonData = [];
 
-      if(datasets === 1) {
-        for(let i = 0; i < yValues.length; i++){
+      if (datasets === 1) {
+        for (let i = 0; i < yValues.length; i++) {
           jsonData.push({
-            "Date": xValues[i],
+            Date: xValues[i],
             [yNames]: yValues[i],
           });
         }
       } else {
-        for(let i = 0; i < yValues[Object.keys(yValues)[0]].length; i++) {
-
-          var newObj = {
-            "Date": xValues[i]
+        for (let i = 0; i < yValues[Object.keys(yValues)[0]].length; i++) {
+          const newObj = {
+            Date: xValues[i],
           };
 
           let j = 0;
-          for(var prop in yValues) {
+          for (const prop in yValues) {
             newObj[yNames[j]] = yValues[prop][i];
             j++;
           }
@@ -78,27 +77,27 @@ class Area extends Component {
         }
       }
 
-      var json2csvParser = new Json2csv.Parser(['Date', yNames]);
+      const json2csvParser = new Json2csv.Parser(['Date', yNames]);
 
       try {
-        var csv = json2csvParser.parse(jsonData);
-        var blob = new Blob([csv], {type: "text/plain;charset=utf-8"});
+        const csv = json2csvParser.parse(jsonData);
+        const blob = new Blob([csv], { type: 'text/plain;charset=utf-8' });
         FileSaver.saveAs(blob, `${fileName}.csv`);
       } catch (err) {
-        alert("Error generating csv file.");
+        alert('Error generating csv file.');
       }
     }
 
-    var option = {
+    const option = {
       title: {
         text: title,
         textStyle: {
-          fontWeight: 'normal'
-        }
+          fontWeight: 'normal',
+        },
       },
       legend: {
         data: yNames,
-        bottom: 0
+        bottom: 0,
       },
       dataZoom: {
         type: 'inside',
@@ -129,17 +128,19 @@ class Area extends Component {
         axisPointer: {
           type: 'cross',
         },
-        formatter: function (params) {
+        formatter(params) {
           let tooltipHTML = `${params[0].name}<br />`;
-          tooltipHTML += params.map(function(param) {
-            return (
-              `${param.marker}${param.seriesName}: ${numeral(param.value).format('0,0')} ${unit}<br />`
-            )
-          }).join('');
+          tooltipHTML += params
+            .map(param => {
+              return `${param.marker}${param.seriesName}: ${numeral(param.value).format(
+                '0,0'
+              )} ${unit}<br />`;
+            })
+            .join('');
           return tooltipHTML;
-        }
+        },
       },
-      xAxis:   {
+      xAxis: {
         data: xValues,
         name: xTitle,
       },
@@ -148,19 +149,24 @@ class Area extends Component {
       },
       grid: {
         left: 50,
-        right: 50
+        right: 50,
       },
-      series: series
+      series,
     };
 
     return (
       <Fragment>
-        {exportCsv && <Button icon="download" size={"small"} onClick={generateCsv} style={{float:'right', zIndex:100}}>Export CSV</Button>}
-        <ReactEcharts
-          option={option}
-          theme='standard'
-          style={style}
-        />
+        {exportCsv && (
+          <Button
+            icon="download"
+            size="small"
+            onClick={generateCsv}
+            style={{ float: 'right', zIndex: 100 }}
+          >
+            Export CSV
+          </Button>
+        )}
+        <ReactEcharts option={option} theme="standard" style={style} notMerge lazyUpdate />
       </Fragment>
     );
   }

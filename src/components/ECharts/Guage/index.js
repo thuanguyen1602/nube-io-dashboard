@@ -14,7 +14,7 @@ class Guage extends Component {
       splitNumber = 6,
       unit = '',
       colour = [[0.2, '#339999'], [0.8, '#333333'], [1.0, '#fbbc07']],
-      style = {}
+      style = {},
     } = this.props;
 
     value = (Math.random() * max).toFixed(0);
@@ -23,30 +23,28 @@ class Guage extends Component {
       title: {
         text: title,
         textStyle: {
-          fontWeight: 'normal'
-        }
+          fontWeight: 'normal',
+        },
       },
       tooltip: {
-        formatter: function (params) {
-          return (
-            `${params.seriesName}<br />
-            ${numeral(params.value).format('0,0')} ${unit}`
-          );
-        }
+        formatter: function(params) {
+          return `${params.seriesName}<br />
+            ${numeral(params.value).format('0,0')} ${unit}`;
+        },
       },
       grid: {
         left: 50,
-        right: 50
+        right: 50,
       },
       series: {
         name: title,
         type: 'gauge',
         detail: {
-          formatter: function (value) {
+          formatter: function(value) {
             return `${numeral(value).format('0,0')} ${unit}`;
           },
           fontSize: 16,
-          fontWeight: 'bolder'
+          fontWeight: 'bolder',
         },
         min: min,
         max: max,
@@ -55,46 +53,44 @@ class Guage extends Component {
         axisLine: {
           lineStyle: {
             color: colour,
-            width: 16
-          }
-        },
-        axisTick: {              
-          lineStyle: {   
-            color: '#fff'
-          }
-        },
-        splitLine: {            
-          lineStyle: {       
-            color: '#fff'
+            width: 16,
           },
-          length: 16
+        },
+        axisTick: {
+          lineStyle: {
+            color: '#fff',
+          },
+        },
+        splitLine: {
+          lineStyle: {
+            color: '#fff',
+          },
+          length: 16,
         },
         axisLabel: {
-          formatter: function (value) {
+          formatter: function(value) {
             return numeral(value).format('0,0');
           },
           color: '#000000',
           padding: 3,
           fontSize: 14,
         },
-        title : {
+        title: {
           fontWeight: 'bolder',
           fontSize: 14,
         },
-        data:[{
-          value: value,
-          name: name
-        }]
-      }
+        data: [
+          {
+            value: value,
+            name: name,
+          },
+        ],
+      },
     };
 
     return (
       <Fragment>
-        <ReactEcharts
-          option={option}
-          theme='standard'
-          style={style}
-        />
+        <ReactEcharts option={option} theme="standard" style={style} />
       </Fragment>
     );
   }
