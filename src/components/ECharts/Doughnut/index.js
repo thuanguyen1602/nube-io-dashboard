@@ -11,7 +11,7 @@ class Doughnut extends Component {
       names = '',
       values = {},
       unit = '',
-      colour = ['#339999', '#333333', '#fbbc07', '#666666'],
+      colour = ['#399', '#333333', '#fbbc07', '#666666'],
       style = {},
     } = this.props;
 

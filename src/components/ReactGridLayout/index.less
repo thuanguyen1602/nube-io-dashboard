@@ -24,7 +24,7 @@
   }
 
   .react-grid-item.react-grid-placeholder {
-    background: #339999;
+    background: #399;
     opacity: 0.3;
     transition-duration: 100ms;
     z-index: 2;
@@ -102,8 +102,8 @@
 
   .nube-grid-remove {
     position: absolute;
-    right: 0px;
-    top: 0px;
+    right: 0;
+    top: 0;
     padding: 2px 8px;
     cursor: pointer;
     color: #000;
@@ -115,5 +115,52 @@
 
   .ant-spin-container {
     height: 100%;
+  }
+
+  .nube-grid-layout {
+    height: 100%;
+  }
+
+  .nube-form-item-remove {
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 2px 8px;
+    cursor: pointer;
+    color: #000;
+  }
+
+  .nube-form-item-drag-handle {
+    background-color: #fff;
+    cursor: move;
+    width: 100%;
+    height: 25px;
+    display: block;
+    top: 0;
+    left: 0;
+    position: absolute;
+    -webkit-transition: 0.2s;
+    transition: 0.2s;
+  }
+
+  .nube-form-item-drag-handle:hover {
+    background-color: #e8eef1;
+  }
+
+  .nube-form-grid {
+    width: 100%;
+    height: 100% !important;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+  }
+
+  .nube-form-item {
+    overflow: auto;
+    padding: 45px 20px 20px;
+    box-shadow: rgb(51, 51, 51) 3px 3px 12px 3px;
   }
 }

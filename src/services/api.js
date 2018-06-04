@@ -120,3 +120,10 @@ export function postGrid(params) {
 export async function httpGet(req) {
   return request(`${req.api}?${stringify(req.params)}`);
 }
+
+export async function httpPost(req) {
+  return request(`${req.api}?${stringify(req.params)}`, {
+    method: 'POST',
+    body: req.body,
+  });
+}

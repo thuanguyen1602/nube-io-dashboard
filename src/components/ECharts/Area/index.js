@@ -19,7 +19,7 @@ class Area extends Component {
       yNames = [],
       xNames = [],
       unit = '',
-      colour = ['#339999', '#333333', '#fbbc07', '#666666'],
+      colour = ['#399', '#333333', '#fbbc07', '#666666'],
       style = {},
       exportCsv = true,
     } = this.props;

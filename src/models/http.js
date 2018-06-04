@@ -1,4 +1,5 @@
-import { httpGet } from '../services/api';
+import { message } from 'antd';
+import { httpGet, httpPost } from '../services/api';
 
 export default {
   namespace: 'http',
@@ -24,10 +25,11 @@ export default {
         },
       });
     },
-    // *post({ payload }, { call }) {
-    //   yield call(postGrid, payload);
-    //   message.success('Saved!');
-    // },
+    *post({ payload }, { call }) {
+      const response = yield call(httpPost, payload);
+      console.log(response);
+      message.success('Saved!');
+    },
   },
 
   reducers: {

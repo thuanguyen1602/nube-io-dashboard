@@ -13,6 +13,7 @@ import { getGas } from './mock/gas';
 import { getHomeData } from './mock/home';
 import { getThermal } from './mock/thermal';
 import { getWater } from './mock/water';
+import { getSwitch } from './mock/switch';
 
 // disable proxy
 const noProxy = process.env.NO_PROXY === 'true';
@@ -149,6 +150,7 @@ const proxy = {
   'GET /api/home_data': getHomeData,
   'GET /api/thermal_data': getThermal,
   'GET /api/water_data': getWater,
+  'GET /api/switch_data': getSwitch,
 };
 
-export default (noProxy ? {} : delay(proxy, 1000));
+export default (noProxy ? {} : delay(proxy, 500));

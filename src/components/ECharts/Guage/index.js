@@ -4,7 +4,7 @@ import numeral from 'numeral';
 
 class Guage extends Component {
   render() {
-    var {
+    const {
       title = '',
       name = '',
       min = 0,
@@ -13,13 +13,18 @@ class Guage extends Component {
       radius = '90%',
       splitNumber = 6,
       unit = '',
-      colour = [[0.2, '#339999'], [0.8, '#333333'], [1.0, '#fbbc07']],
+      colour = ['#399', '#333333', '#fbbc07'],
       style = {},
     } = this.props;
 
-    value = (Math.random() * max).toFixed(0);
+    const fakeValue = (Math.random() * max).toFixed(0);
+    const formattedColours = [];
 
-    var option = {
+    colour.forEach((aColour, index) => {
+      formattedColours.push([(index + 1) / colour.length, colour[index]]);
+    });
+
+    const option = {
       title: {
         text: title,
         textStyle: {
@@ -27,7 +32,7 @@ class Guage extends Component {
         },
       },
       tooltip: {
-        formatter: function(params) {
+        formatter(params) {
           return `${params.seriesName}<br />
             ${numeral(params.value).format('0,0')} ${unit}`;
         },
@@ -40,19 +45,19 @@ class Guage extends Component {
         name: title,
         type: 'gauge',
         detail: {
-          formatter: function(value) {
-            return `${numeral(value).format('0,0')} ${unit}`;
+          formatter(val) {
+            return `${numeral(val).format('0,0')} ${unit}`;
           },
           fontSize: 16,
           fontWeight: 'bolder',
         },
-        min: min,
-        max: max,
-        splitNumber: splitNumber,
-        radius: radius,
+        min,
+        max,
+        splitNumber,
+        radius,
         axisLine: {
           lineStyle: {
-            color: colour,
+            color: formattedColours,
             width: 16,
           },
         },
@@ -68,8 +73,8 @@ class Guage extends Component {
           length: 16,
         },
         axisLabel: {
-          formatter: function(value) {
-            return numeral(value).format('0,0');
+          formatter(val) {
+            return numeral(val).format('0,0');
           },
           color: '#000000',
           padding: 3,
@@ -81,8 +86,8 @@ class Guage extends Component {
         },
         data: [
           {
-            value: value,
-            name: name,
+            value: fakeValue,
+            name,
           },
         ],
       },

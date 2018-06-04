@@ -1,77 +1,16 @@
-import React, { PureComponent } from 'react';
-import { Modal, Form, Input, Select, Spin, Icon, InputNumber } from 'antd';
+import React, { PureComponent, Fragment } from 'react';
+import { Spin, Icon } from 'antd';
 import uuid from 'uuid';
 import { connect } from 'dva';
-import { WidthProvider, Responsive } from 'react-grid-layout';
-import { Bar, Guage, Area, Line } from 'components/ECharts';
+import { Responsive, WidthProvider } from 'react-grid-layout';
 import _ from 'lodash';
+import CreateItemForm from './CreateItemForm';
+// import WidthProvider from './WidthProvider';
+import { Bar, Guage, Area, Line, Switch } from './../ECharts';
+
 import './index.less';
 
-const ResponsiveReactGridLayout = WidthProvider(Responsive);
-const FormItem = Form.Item;
-const { Option } = Select;
-
-// Need to move this component into it's own separate file
-const ItemCreateForm = Form.create()(
-  class extends React.Component {
-    render() {
-      const { visible, onCancel, onCreate, form } = this.props;
-      const { getFieldDecorator, getFieldValue } = form;
-
-      const datasets = getFieldValue('datasets') || 1;
-
-      function generateYNameInputs() {
-        const inputs = [];
-        for (let i = 0; i < datasets; i++) {
-          inputs.push(
-            <FormItem key={i} label={`yName ${i + 1}`}>
-              {getFieldDecorator(`yNames[${i}]`, {
-                rules: [{ required: true, message: 'Please input Y name!', whitespace: true }],
-              })(<Input />)}
-            </FormItem>
-          );
-        }
-        return inputs;
-      }
-
-      return (
-        <Modal
-          visible={visible}
-          title="Add a new Chart"
-          okText="Add"
-          onCancel={onCancel}
-          onOk={onCreate}
-        >
-          <Form layout="vertical">
-            <FormItem label="Chart Type">
-              {getFieldDecorator('type', { initialValue: 'Bar' })(
-                <Select>
-                  <Option value="Bar">Bar</Option>
-                  <Option value="Area">Area</Option>
-                  <Option value="Line">Line</Option>
-                  <Option value="Guage">Guage</Option>
-                </Select>
-              )}
-            </FormItem>
-            <FormItem label="Title">{getFieldDecorator('title')(<Input />)}</FormItem>
-            <FormItem label="File Name">{getFieldDecorator('fileName')(<Input />)}</FormItem>
-            <FormItem label="Datasets">
-              {getFieldDecorator('datasets', { initialValue: 1 })(<InputNumber min={1} />)}
-            </FormItem>
-            {generateYNameInputs()}
-            <FormItem label="Unit">{getFieldDecorator('unit')(<Input />)}</FormItem>
-            <FormItem label="API Address">
-              {getFieldDecorator('api', { initialValue: '/api/gas_data' })(<Input />)}
-            </FormItem>
-            <FormItem label="Colour(s)">
-              {getFieldDecorator('colour', { initialValue: '#339999' })(<Input />)}
-            </FormItem>
-          </Form>
-        </Modal>
-      );
-    }
-  }
-);
+let ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 /*
   Connects this react component to the model's state tree.
@@ -98,22 +37,24 @@ export default class ReactGridLayoutTest extends PureComponent {
       Bar,
       Line,
       Guage,
+      Switch,
     };
 
-    this.onAddItem = this.onAddItem.bind(this);
+    this.addGridItem = this.addGridItem.bind(this);
     this.onSaveGrid = this.onSaveGrid.bind(this);
     this.onLoadGrid = this.onLoadGrid.bind(this);
     this.onResetGrid = this.onResetGrid.bind(this);
     this.onBreakpointChange = this.onBreakpointChange.bind(this);
     this.showModal = this.showModal.bind(this);
-    this.handleCreate = this.handleCreate.bind(this);
+    this.handleFormChange = this.handleFormChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleCancel = this.handleCancel.bind(this);
     this.saveFormRef = this.saveFormRef.bind(this);
+    this.onUpdateItem = this.onUpdateItem.bind(this);
   }
 
   static get defaultProps() {
     return {
-      className: 'layout',
       cols: { lg: 24, md: 12, sm: 8, xs: 4, xxs: 2 },
       rowHeight: 50,
       grid: {
@@ -131,6 +72,7 @@ export default class ReactGridLayoutTest extends PureComponent {
   }
 
   componentDidMount() {
+    ResponsiveReactGridLayout = WidthProvider(Responsive);
     this.props
       .dispatch({
         type: 'grid/fetch',
@@ -141,7 +83,7 @@ export default class ReactGridLayoutTest extends PureComponent {
             type: 'http/fetch',
             payload: {
               id: item.i,
-              api: item.component.props.api,
+              api: item.api,
               params: {
                 start: this.props.rangePickerValue[0].valueOf(),
                 end: this.props.rangePickerValue[1].valueOf(),
@@ -163,7 +105,7 @@ export default class ReactGridLayoutTest extends PureComponent {
             type: 'http/fetch',
             payload: {
               id: item.i,
-              api: item.component.props.api,
+              api: item.api,
               params: {
                 start: nextProps.rangePickerValue[0].valueOf(),
                 end: nextProps.rangePickerValue[1].valueOf(),
@@ -202,56 +144,60 @@ export default class ReactGridLayoutTest extends PureComponent {
     });
   }
 
-  showModal() {
-    this.setState({
-      visible: true,
-    });
+  showModal(id) {
+    const state = JSON.parse(JSON.stringify(this.state));
+    state.visible = true;
+    state.currId = id;
+    this.setState(state);
   }
 
-  handleCreate() {
+  handleFormChange(values) {
+    this.onUpdateItem(values);
+  }
+
+  handleSubmit() {
     const { form } = this.formRef.props;
-    form.validateFields((err, values) => {
+    const state = JSON.parse(JSON.stringify(this.state));
+
+    form.validateFields(err => {
       if (err) {
         return;
       }
 
-      this.onAddItem(values);
       form.resetFields();
-      this.setState({
-        visible: false,
-      });
+      state.visible = false;
+      state.currId = null;
+      this.setState(state);
     });
+  }
+
+  handleCancel() {
+    const { form } = this.formRef.props;
+    const state = JSON.parse(JSON.stringify(this.state));
+
+    this.onRemoveItem(state.currId);
+
+    form.resetFields();
+    state.visible = false;
+    state.currId = null;
+    this.setState(state);
   }
 
   saveFormRef(formRef) {
     this.formRef = formRef;
   }
 
-  handleCancel() {
-    const { form } = this.formRef.props;
-    form.resetFields();
-    this.setState({
-      visible: false,
-    });
-  }
-
-  onAddItem(values) {
-    const grid = Object.assign({}, this.props.grid);
+  addGridItem() {
+    const grid = JSON.parse(JSON.stringify(this.props.grid));
     const newId = uuid();
 
-    // Adds the new item to all the layouts for each breakpoint,
-    // adding to the bottom of the grid for the current layout and
-    // to y = 0 for the others.
+    // Adds the new item to all the layouts for each breakpoint
     for (const col in this.props.cols) {
       if (Object.prototype.hasOwnProperty.call(this.props.cols, col)) {
-        let y = 0;
-        if (this.props.cols[col] === this.state.cols) {
-          y = Infinity;
-        }
         const newItem = {
           i: newId,
-          x: (grid.layouts[col].length * 2) % (this.props.cols[col] || 24),
-          y,
+          x: 0,
+          y: 0,
           w: 8,
           h: 8,
         };
@@ -261,23 +207,6 @@ export default class ReactGridLayoutTest extends PureComponent {
 
     const newItem = {
       i: newId,
-      component: {
-        type: values.type,
-        props: {
-          title: values.title,
-          fileName: values.fileName,
-          datasets: values.datasets,
-          yNames: values.yNames,
-          unit: values.unit,
-          colour: values.colour.split(','),
-          style: {
-            height: '100%',
-            width: '100%',
-          },
-          exportCsv: false,
-          api: values.api,
-        },
-      },
     };
 
     grid.items.push(newItem);
@@ -287,16 +216,43 @@ export default class ReactGridLayoutTest extends PureComponent {
       payload: { ...grid },
     });
 
-    this.props.dispatch({
-      type: 'http/fetch',
-      payload: {
-        id: newId,
-        api: newItem.component.props.api,
-        params: {
-          start: this.props.rangePickerValue[0].valueOf(),
-          end: this.props.rangePickerValue[1].valueOf(),
-        },
+    this.showModal(newId);
+  }
+
+  onUpdateItem(values) {
+    const grid = JSON.parse(JSON.stringify(this.props.grid));
+    const itemIndex = grid.items.findIndex(anItem => anItem.i === this.state.currId);
+
+    grid.items[itemIndex] = {
+      ...grid.items[itemIndex],
+      ...values,
+      style: {
+        height: '100%',
+        width: '100%',
       },
+      exportCsv: false,
+    };
+
+    if (
+      grid.items[itemIndex].api &&
+      this.props.grid.items[itemIndex].api !== grid.items[itemIndex].api
+    ) {
+      this.props.dispatch({
+        type: 'http/fetch',
+        payload: {
+          id: this.state.currId,
+          api: grid.items[itemIndex].api,
+          params: {
+            start: this.props.rangePickerValue[0].valueOf(),
+            end: this.props.rangePickerValue[1].valueOf(),
+          },
+        },
+      });
+    }
+
+    this.props.dispatch({
+      type: 'grid/updateState',
+      payload: { ...grid },
     });
   }
 
@@ -346,18 +302,21 @@ export default class ReactGridLayoutTest extends PureComponent {
   }
 
   createElement(el) {
+    let ComponentType = null;
+    let data = {};
     const { i } = el;
+
     const item = this.props.grid.items.find(anItem => {
       return anItem.i === i;
     });
-    let ComponentType = null;
-    let data = {};
-    if (item && 'component' in item && 'type' in item.component) {
-      ComponentType = this.components[item.component.type];
+
+    if (item && 'type' in item) {
+      ComponentType = this.components[item.type];
       if (this.props.http[item.i]) {
         data = this.props.http[item.i];
       }
     }
+
     return (
       <div key={i} data-grid={el} className="nube-grid-item">
         <span className="nube-drag-handle" />
@@ -370,14 +329,14 @@ export default class ReactGridLayoutTest extends PureComponent {
             wrapperClassName="nube-spinner"
             spinning={data.loading}
             indicator={
-              <Icon type="loading-3-quarters" style={{ fontSize: 30, color: '#339999' }} spin />
+              <Icon type="loading-3-quarters" style={{ fontSize: 30, color: '#399' }} spin />
             }
             delay={300}
           >
             {React.createElement(
               ComponentType,
               {
-                ...item.component.props,
+                ...item,
                 ...data,
               },
               null
@@ -389,16 +348,16 @@ export default class ReactGridLayoutTest extends PureComponent {
   }
 
   render() {
-    const { cols, grid } = this.props;
+    const { cols, grid, loadingGrid } = this.props;
 
     return (
-      <div>
-        <button onClick={this.showModal}>Add item</button>
+      <Fragment>
+        <button onClick={this.addGridItem}>Add item</button>
         <button onClick={this.onSaveGrid}>Save</button>
         <button onClick={this.onLoadGrid}>Load</button>
         <button onClick={this.onResetGrid}>Reset</button>
         <ResponsiveReactGridLayout
-          className="layout"
+          className="nube-grid-layout"
           cols={cols}
           rowHeight={30}
           layouts={grid.layouts}
@@ -408,13 +367,14 @@ export default class ReactGridLayoutTest extends PureComponent {
         >
           {_.map(grid.layouts[this.state.breakpoint], el => this.createElement(el))}
         </ResponsiveReactGridLayout>
-        <ItemCreateForm
+        <CreateItemForm
           wrappedComponentRef={this.saveFormRef}
           visible={this.state.visible}
-          onCancel={this.handleCancel}
-          onCreate={this.handleCreate}
+          handleFormChange={this.handleFormChange}
+          handleCancel={this.handleCancel}
+          handleSubmit={this.handleSubmit}
         />
-      </div>
+      </Fragment>
     );
   }
 }
