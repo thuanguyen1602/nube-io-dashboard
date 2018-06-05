@@ -78,9 +78,7 @@
     padding: 35px 10px 10px;
     background-color: #fff;
     border: 1px solid #dde4ed;
-    position: relative;
     border-radius: 3px;
-    height: 100%;
     overflow: hidden;
   }
 
@@ -104,9 +102,17 @@
     position: absolute;
     right: 0;
     top: 0;
-    padding: 2px 8px;
+    line-height: 15px;
+    padding: 5px 9px;
     cursor: pointer;
     color: #000;
+    -webkit-transition: 0.2s;
+    transition: 0.2s;
+  }
+
+  .nube-grid-remove:hover {
+    color: #fff;
+    background-color: #f5222d;
   }
 
   .nube-spinner {
@@ -121,13 +127,39 @@
     height: 100%;
   }
 
+  .nube-grid-edit {
+    position: absolute;
+    right: 25px;
+    top: 0;
+    line-height: 15px;
+    padding: 6px 5px 4px;
+    cursor: pointer;
+    color: #000;
+    -webkit-transition: 0.2s;
+    transition: 0.2s;
+  }
+
+  .nube-grid-edit:hover {
+    color: #fff;
+    background-color: #399;
+  }
+
   .nube-form-item-remove {
     position: absolute;
     right: 0;
     top: 0;
-    padding: 2px 8px;
+    line-height: 20px;
+    padding: 2px 10px;
     cursor: pointer;
     color: #000;
+    -webkit-transition: 0.2s;
+    transition: 0.2s;
+    z-index: 101;
+  }
+
+  .nube-form-item-remove:hover {
+    color: #fff;
+    background-color: #f5222d;
   }
 
   .nube-form-item-drag-handle {
@@ -141,6 +173,8 @@
     position: absolute;
     -webkit-transition: 0.2s;
     transition: 0.2s;
+    z-index: 100;
+    border-bottom: 1px solid #dde4ed;
   }
 
   .nube-form-item-drag-handle:hover {
@@ -156,11 +190,35 @@
     right: 0;
     bottom: 0;
     z-index: 100;
+    background: rgba(0, 0, 0, 0.15);
   }
 
   .nube-form-item {
-    overflow: auto;
-    padding: 45px 20px 20px;
-    box-shadow: rgb(51, 51, 51) 3px 3px 12px 3px;
+    overflow: hidden;
+    box-shadow: 0 3px 7px rgba(0, 0, 0, 0.3);
+    border: 1px solid #dde4ed;
+    border-radius: 3px;
+  }
+
+  .nube-form-item-container {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: auto;
+    top: 25px;
+    bottom: 53px;
+    padding: 20px 20px 0 20px;
+    position: absolute;
+  }
+
+  .nube-form-item-footer {
+    position: absolute;
+    bottom: 0;
+    padding: 10px;
+    width: 100%;
+    border-top: 1px solid #dde4ed;
+  }
+
+  .nube-form-item-footer button {
+    margin-right: 10px;
   }
 }

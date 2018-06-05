@@ -14,13 +14,15 @@ class Switch extends Component {
   };
 
   render() {
-    const {
-      title = '',
-      height = 44,
-      width = 88,
-      onColour = '#399',
-      offColour = '#c1c1c0',
-    } = this.props;
+    const { title = '', height = 44, width, onColour = '#399', offColour = '#c1c1c0' } = this.props;
+
+    let formattedWidth = width;
+
+    if (!width) {
+      formattedWidth = '100%';
+    } else {
+      formattedWidth = `${width}px`;
+    }
 
     const StyleWrapper = styled.div`
       .ant-switch {
@@ -42,7 +44,7 @@ class Switch extends Component {
 
     const style = {
       height: `${height}px`,
-      width: `${width}px`,
+      width: formattedWidth,
       display: 'block',
       margin: '0 auto',
     };

@@ -1,15 +1,14 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import ReactEcharts from 'echarts-for-react';
-import moment from 'moment';
 import numeral from 'numeral';
 
 class Doughnut extends Component {
   render() {
     const {
       title = '',
-      name = '',
-      names = '',
-      values = {},
+      fileName = 'download',
+      yNames = [],
+      yValues = {},
       unit = '',
       colour = ['#399', '#333333', '#fbbc07', '#666666'],
       style = {},
@@ -19,25 +18,25 @@ class Doughnut extends Component {
     const reducer = (accumulator, currentValue) => accumulator + currentValue;
 
     let i = 0;
-    for (let prop in values) {
-      data.push({
-        value: values[prop].reduce(reducer),
-        name: names[i],
-      });
-      i++;
+    for (const key in yValues) {
+      if (Object.prototype.hasOwnProperty.call(yValues, key)) {
+        data.push({
+          value: yValues[key].reduce(reducer),
+          name: yNames[i],
+        });
+        i += 1;
+      }
     }
 
-    var imgName = '';
-
-    if (title) {
-      imgName = title;
-    } else {
-      imgName = 'download';
-    }
-
-    var option = {
+    const option = {
+      title: {
+        text: title,
+        textStyle: {
+          fontWeight: 'normal',
+        },
+      },
       tooltip: {
-        formatter: function(params) {
+        formatter(params) {
           return `${params.name}<br />
             ${params.percent} %<br />
             ${params.marker}${numeral(params.value).format('0,0')} ${unit}`;
@@ -48,12 +47,21 @@ class Doughnut extends Component {
         right: 50,
       },
       legend: {
-        data: names,
+        data: yNames,
         bottom: 0,
       },
       color: colour,
+      toolbox: {
+        feature: {
+          saveAsImage: {
+            type: 'png',
+            name: fileName,
+            title: 'image',
+          },
+        },
+      },
       series: {
-        name: 'Accumulated Tariffs',
+        name: title,
         type: 'pie',
         radius: ['55%', '75%'],
         avoidLabelOverlap: false,
@@ -77,15 +85,11 @@ class Doughnut extends Component {
             show: false,
           },
         },
-        data: data,
+        data,
       },
     };
 
-    return (
-      <Fragment>
-        <ReactEcharts option={option} theme="standard" style={style} />
-      </Fragment>
-    );
+    return <ReactEcharts option={option} theme="standard" style={style} />;
   }
 }
 

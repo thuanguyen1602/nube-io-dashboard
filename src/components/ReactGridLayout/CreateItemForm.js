@@ -7,7 +7,46 @@ const ReactGridLayout = WidthProvider(RGL);
 const FormItem = Form.Item;
 const { Option } = Select;
 
-export default Form.create()(
+export default Form.create({
+  // Maps the inputValues props to the form, used when editing an existing chart
+  mapPropsToFields(props) {
+    if (props.inputValues) {
+      const formFields = {};
+      for (const key in props.inputValues) {
+        if (Object.prototype.hasOwnProperty.call(props.inputValues, key)) {
+          let value = props.inputValues[key];
+          if (Array.isArray(value)) {
+            value = value.join(',');
+          }
+          formFields[key] = Form.createFormField({
+            value,
+          });
+        }
+      }
+      return formFields;
+    }
+  },
+  onValuesChange(props, changedValues, allValues) {
+    const inputValues = JSON.parse(JSON.stringify(allValues));
+
+    for (const key in inputValues) {
+      if (Object.prototype.hasOwnProperty.call(inputValues, key)) {
+        if (inputValues[key] === '') {
+          inputValues[key] = undefined;
+        }
+      }
+    }
+    if (inputValues.yNames) {
+      inputValues.yNames = inputValues.yNames.split(',');
+    }
+
+    if (inputValues.colour) {
+      inputValues.colour = inputValues.colour.split(',');
+    }
+
+    props.onFormChange(inputValues);
+  },
+})(
   class CreateItemForm extends Component {
     constructor(props) {
       super(props);
@@ -16,17 +55,15 @@ export default Form.create()(
         layout: [
           {
             i: 'nube-form-item',
-            w: 22,
-            h: 13,
-            x: 22,
-            y: 6,
+            w: 25,
+            h: 15,
+            x: 34,
+            y: 2,
           },
         ],
-        inputTimeout: null,
       };
 
-      this.handleLayoutChange = this.handleLayoutChange.bind(this);
-      this.handleFormChange = this.handleFormChange.bind(this);
+      this.onLayoutChange = this.onLayoutChange.bind(this);
     }
 
     static get defaultProps() {
@@ -38,116 +75,81 @@ export default Form.create()(
       };
     }
 
-    handleLayoutChange(layout) {
+    componentWillReceiveProps(nextProps) {
+      // Passes data to parent if the form is visible and it just changed from
+      // visible = false to visible = true.
+      if (nextProps.visible && nextProps.visible !== this.props.visible) {
+        setTimeout(() => {
+          const fieldsValue = this.props.form.getFieldsValue();
+
+          for (const key in fieldsValue) {
+            if (Object.prototype.hasOwnProperty.call(fieldsValue, key)) {
+              if (fieldsValue[key] === '') {
+                fieldsValue[key] = undefined;
+              }
+            }
+          }
+
+          if (fieldsValue.yNames) {
+            fieldsValue.yNames = fieldsValue.yNames.split(',');
+          }
+
+          if (fieldsValue.colour) {
+            fieldsValue.colour = fieldsValue.colour.split(',');
+          }
+
+          this.props.onFormChange(fieldsValue);
+        }, 100);
+      }
+    }
+
+    onLayoutChange(layout) {
       this.setState({ layout });
     }
 
-    handleFormChange() {
-      // Timeout so that the values can be updated after input change and before
-      // passing the data to the parent.
-      setTimeout(() => {
-        const fieldsValue = this.props.form.getFieldsValue();
-        if (fieldsValue.colour) {
-          fieldsValue.colour = fieldsValue.colour.split(',');
-        }
-        if (fieldsValue.colour === '') {
-          fieldsValue.colour = undefined;
-        }
-
-        // const state = JSON.parse(JSON.stringify(this.state));
-
-        // clearTimeout(this.state.inputTimeout);
-
-        // Uncomment to set debounce for input. Causes updates to be passed
-        // to the parent after the input fields haven't been edited for 500 ms.
-        // state.inputTimeout = setTimeout(() => {
-        this.props.handleFormChange(fieldsValue);
-        // }, 500);
-
-        // this.setState(state);
-      }, 100);
-    }
-
     render() {
-      const { visible, handleCancel, handleSubmit, form } = this.props;
+      const { visible, onCancel, onSubmit, form, inputValues } = this.props;
       const { getFieldDecorator, getFieldValue } = form;
 
-      const datasets = getFieldValue('datasets') || 1;
       const type = getFieldValue('type') || 1;
-
-      const yNameInputs = [];
-      for (let i = 0; i < datasets; i++) {
-        yNameInputs.push(
-          <FormItem key={i} label={`yName ${i + 1}`}>
-            {getFieldDecorator(`yNames[${i}]`, {
-              rules: [{ required: false, message: 'Please input Y name!', whitespace: true }],
-            })(<Input onChange={this.handleFormChange} />)}
-          </FormItem>
-        );
-      }
 
       const barForm = (
         <Fragment>
-          <FormItem label="File Name">
-            {getFieldDecorator('fileName')(<Input onChange={this.handleFormChange} />)}
+          <FormItem label="File Name">{getFieldDecorator('fileName')(<Input />)}</FormItem>
+          <FormItem label="yName(s)">
+            {getFieldDecorator('yNames', {
+              rules: [{ required: false, message: 'Please input Y name!', whitespace: true }],
+            })(<Input />)}
           </FormItem>
-          <FormItem label="Datasets">
-            {getFieldDecorator('datasets', { initialValue: 1 })(
-              <InputNumber onChange={this.handleFormChange} min={1} />
-            )}
-          </FormItem>
-          {yNameInputs}
-          <FormItem label="Unit">
-            {getFieldDecorator('unit')(<Input onChange={this.handleFormChange} />)}
-          </FormItem>
-          <FormItem label="Colour(s)">
-            {getFieldDecorator('colour')(<Input onChange={this.handleFormChange} />)}
-          </FormItem>
+          <FormItem label="Unit">{getFieldDecorator('unit')(<Input />)}</FormItem>
+          <FormItem label="Colour(s)">{getFieldDecorator('colour')(<Input />)}</FormItem>
         </Fragment>
       );
 
       const switchForm = (
         <Fragment>
-          <FormItem label="width">
-            {getFieldDecorator('width', { initialValue: 88 })(
-              <InputNumber onChange={this.handleFormChange} min={1} />
-            )}
+          <FormItem label="Width">
+            {getFieldDecorator('width', { initialValue: 88 })(<InputNumber />)}
           </FormItem>
-          <FormItem label="height">
-            {getFieldDecorator('height', { initialValue: 44 })(
-              <InputNumber onChange={this.handleFormChange} min={1} />
-            )}
+          <FormItem label="Height">
+            {getFieldDecorator('height', { initialValue: 44 })(<InputNumber />)}
           </FormItem>
-          <FormItem label="On Colour">
-            {getFieldDecorator('onColour')(<Input onChange={this.handleFormChange} />)}
-          </FormItem>
-          <FormItem label="Off Colour">
-            {getFieldDecorator('offColour')(<Input onChange={this.handleFormChange} />)}
-          </FormItem>
+          <FormItem label="On Colour">{getFieldDecorator('onColour')(<Input />)}</FormItem>
+          <FormItem label="Off Colour">{getFieldDecorator('offColour')(<Input />)}</FormItem>
         </Fragment>
       );
 
       const guageForm = (
         <Fragment>
-          <FormItem label="name">
-            {getFieldDecorator('name')(<Input onChange={this.handleFormChange} />)}
+          <FormItem label="Name">{getFieldDecorator('name')(<Input />)}</FormItem>
+          <FormItem label="Minimum">
+            {getFieldDecorator('min', { initialValue: 0 })(<InputNumber />)}
           </FormItem>
-          <FormItem label="min">
-            {getFieldDecorator('min', { initialValue: 0 })(
-              <InputNumber onChange={this.handleFormChange} />
-            )}
+          <FormItem label="Maximum">
+            {getFieldDecorator('max', { initialValue: 100 })(<InputNumber />)}
           </FormItem>
-          <FormItem label="max">
-            {getFieldDecorator('max', { initialValue: 100 })(
-              <InputNumber onChange={this.handleFormChange} />
-            )}
-          </FormItem>
-          <FormItem label="Unit">
-            {getFieldDecorator('unit')(<Input onChange={this.handleFormChange} />)}
-          </FormItem>
-          <FormItem label="Colour(s)">
-            {getFieldDecorator('colour')(<Input onChange={this.handleFormChange} />)}
-          </FormItem>
+          <FormItem label="Unit">{getFieldDecorator('unit')(<Input />)}</FormItem>
+          <FormItem label="Colour(s)">{getFieldDecorator('colour')(<Input />)}</FormItem>
         </Fragment>
       );
 
@@ -157,6 +159,7 @@ export default Form.create()(
         Line: barForm,
         Guage: guageForm,
         Switch: switchForm,
+        Doughnut: barForm,
       };
 
       return (
@@ -164,43 +167,44 @@ export default Form.create()(
           {visible && (
             <ReactGridLayout
               layout={this.state.layout}
-              onLayoutChange={this.handleLayoutChange}
+              onLayoutChange={this.onLayoutChange}
               draggableHandle=".nube-form-item-drag-handle"
               {...this.props}
             >
               <div key="nube-form-item" className="nube-form-item">
                 <span className="nube-form-item-drag-handle" />
-                <span className="nube-form-item-remove" onClick={handleCancel}>
+                <span className="nube-form-item-remove" onClick={onCancel}>
                   x
                 </span>
-                <Form onSubmit={handleSubmit} layout="vertical">
-                  <FormItem label="Chart Type">
-                    {getFieldDecorator('type', { initialValue: 'Bar' })(
-                      <Select onChange={this.handleFormChange}>
-                        <Option value="Bar">Bar</Option>
-                        <Option value="Area">Area</Option>
-                        <Option value="Line">Line</Option>
-                        <Option value="Guage">Guage</Option>
-                        <Option value="Switch">Switch</Option>
-                      </Select>
-                    )}
-                  </FormItem>
-                  <FormItem label="Title">
-                    {getFieldDecorator('title')(<Input onChange={this.handleFormChange} />)}
-                  </FormItem>
-                  {forms[type]}
-                  <FormItem label="API Address">
-                    {getFieldDecorator('api', { initialValue: '/api/gas_data' })(
-                      <Input onChange={this.handleFormChange} />
-                    )}
-                  </FormItem>
-                  <Button type="primary" htmlType="submit" className="submit-form-button">
-                    Create
+                <div className="nube-form-item-container">
+                  <Form layout="vertical">
+                    <FormItem label="Chart Type">
+                      {getFieldDecorator('type', { initialValue: 'Bar' })(
+                        <Select>
+                          <Option value="Bar">Bar</Option>
+                          <Option value="Area">Area</Option>
+                          <Option value="Line">Line</Option>
+                          <Option value="Guage">Guage</Option>
+                          <Option value="Switch">Switch</Option>
+                          <Option value="Doughnut">Doughnut</Option>
+                        </Select>
+                      )}
+                    </FormItem>
+                    <FormItem label="API Address">
+                      {getFieldDecorator('api', { initialValue: '/api/water_data' })(<Input />)}
+                    </FormItem>
+                    <FormItem label="Title">{getFieldDecorator('title')(<Input />)}</FormItem>
+                    {forms[type]}
+                  </Form>
+                </div>
+                <div className="nube-form-item-footer">
+                  <Button type="primary" onClick={onSubmit} className="add-button-nube-form">
+                    {inputValues.new ? 'Save' : 'Update'}
                   </Button>
-                  <Button type="primary" onClick={handleCancel} className="cancel-form-button">
+                  <Button type="default" onClick={onCancel} className="cancel-button-nube-form">
                     Cancel
                   </Button>
-                </Form>
+                </div>
               </div>
             </ReactGridLayout>
           )}

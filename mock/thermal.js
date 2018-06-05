@@ -4,7 +4,9 @@ import moment from 'moment';
 export function thermalData(params) {
   const thermal = {
     xValues: [],
-    yValues: [],
+    yValues: {
+      values: [],
+    },
     sum: 0,
   };
 
@@ -15,9 +17,9 @@ export function thermalData(params) {
 
   for (let i = 0; i < numDays; i++) {
     thermal.xValues.push(day.format('DD-MM-YYYY'));
-    thermal.yValues.push(Math.floor(Math.random() * 100 + 100));
+    thermal.yValues.values.push(Math.floor(Math.random() * 100 + 100));
     day = moment(day.add(1, 'day'));
-    thermal.sum += thermal.yValues[i];
+    thermal.sum += thermal.yValues.values[i];
   }
 
   return {

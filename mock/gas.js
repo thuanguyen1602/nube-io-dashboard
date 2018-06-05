@@ -4,7 +4,9 @@ import moment from 'moment';
 export function gasData(params) {
   const gas = {
     xValues: [],
-    yValues: [],
+    yValues: {
+      values: [],
+    },
     sum: 0,
   };
 
@@ -15,9 +17,9 @@ export function gasData(params) {
 
   for (let i = 0; i < numDays; i++) {
     gas.xValues.push(day.format('DD-MM-YYYY'));
-    gas.yValues.push(Math.floor(Math.random() * 100 + 100));
+    gas.yValues.values.push(Math.floor(Math.random() * 100 + 100));
     day = moment(day.add(1, 'day'));
-    gas.sum += gas.yValues[i];
+    gas.sum += gas.yValues.values[i];
   }
 
   return {

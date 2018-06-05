@@ -4,7 +4,9 @@ import moment from 'moment';
 export function waterData(params) {
   const water = {
     xValues: [],
-    yValues: [],
+    yValues: {
+      values: [],
+    },
     sum: 0,
   };
 
@@ -15,9 +17,9 @@ export function waterData(params) {
 
   for (let i = 0; i < numDays; i++) {
     water.xValues.push(day.format('DD-MM-YYYY'));
-    water.yValues.push(Math.floor(Math.random() * 100 + 100));
+    water.yValues.values.push(Math.floor(Math.random() * 100 + 100));
     day = moment(day.add(1, 'day'));
-    water.sum += water.yValues[i];
+    water.sum += water.yValues.values[i];
   }
 
   return {

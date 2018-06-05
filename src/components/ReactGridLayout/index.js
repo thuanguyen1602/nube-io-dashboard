@@ -5,9 +5,7 @@ import { connect } from 'dva';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 import _ from 'lodash';
 import CreateItemForm from './CreateItemForm';
-// import WidthProvider from './WidthProvider';
-import { Bar, Guage, Area, Line, Switch } from './../ECharts';
-
+import { Bar, Guage, Area, Line, Switch, Doughnut } from './../ECharts';
 import './index.less';
 
 let ResponsiveReactGridLayout = WidthProvider(Responsive);
@@ -30,6 +28,10 @@ export default class ReactGridLayoutTest extends PureComponent {
       breakpoint: 'lg',
       cols: 24,
       visible: false,
+      currItem: {
+        new: false,
+      },
+      prevItem: {},
     };
 
     this.components = {
@@ -38,19 +40,19 @@ export default class ReactGridLayoutTest extends PureComponent {
       Line,
       Guage,
       Switch,
+      Doughnut,
     };
 
-    this.addGridItem = this.addGridItem.bind(this);
     this.onSaveGrid = this.onSaveGrid.bind(this);
     this.onLoadGrid = this.onLoadGrid.bind(this);
     this.onResetGrid = this.onResetGrid.bind(this);
     this.onBreakpointChange = this.onBreakpointChange.bind(this);
-    this.showModal = this.showModal.bind(this);
-    this.handleFormChange = this.handleFormChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleCancel = this.handleCancel.bind(this);
+    this.onAddItem = this.onAddItem.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
+    this.onCancel = this.onCancel.bind(this);
     this.saveFormRef = this.saveFormRef.bind(this);
-    this.onUpdateItem = this.onUpdateItem.bind(this);
+    this.updateItem = this.updateItem.bind(this);
+    this.editGridItem = this.editGridItem.bind(this);
   }
 
   static get defaultProps() {
@@ -67,7 +69,6 @@ export default class ReactGridLayoutTest extends PureComponent {
         },
         items: [],
       },
-      http: {},
     };
   }
 
@@ -144,134 +145,6 @@ export default class ReactGridLayoutTest extends PureComponent {
     });
   }
 
-  showModal(id) {
-    const state = JSON.parse(JSON.stringify(this.state));
-    state.visible = true;
-    state.currId = id;
-    this.setState(state);
-  }
-
-  handleFormChange(values) {
-    this.onUpdateItem(values);
-  }
-
-  handleSubmit() {
-    const { form } = this.formRef.props;
-    const state = JSON.parse(JSON.stringify(this.state));
-
-    form.validateFields(err => {
-      if (err) {
-        return;
-      }
-
-      form.resetFields();
-      state.visible = false;
-      state.currId = null;
-      this.setState(state);
-    });
-  }
-
-  handleCancel() {
-    const { form } = this.formRef.props;
-    const state = JSON.parse(JSON.stringify(this.state));
-
-    this.onRemoveItem(state.currId);
-
-    form.resetFields();
-    state.visible = false;
-    state.currId = null;
-    this.setState(state);
-  }
-
-  saveFormRef(formRef) {
-    this.formRef = formRef;
-  }
-
-  addGridItem() {
-    const grid = JSON.parse(JSON.stringify(this.props.grid));
-    const newId = uuid();
-
-    // Adds the new item to all the layouts for each breakpoint
-    for (const col in this.props.cols) {
-      if (Object.prototype.hasOwnProperty.call(this.props.cols, col)) {
-        const newItem = {
-          i: newId,
-          x: 0,
-          y: 0,
-          w: 8,
-          h: 8,
-        };
-        grid.layouts[col].push(newItem);
-      }
-    }
-
-    const newItem = {
-      i: newId,
-    };
-
-    grid.items.push(newItem);
-
-    this.props.dispatch({
-      type: 'grid/updateState',
-      payload: { ...grid },
-    });
-
-    this.showModal(newId);
-  }
-
-  onUpdateItem(values) {
-    const grid = JSON.parse(JSON.stringify(this.props.grid));
-    const itemIndex = grid.items.findIndex(anItem => anItem.i === this.state.currId);
-
-    grid.items[itemIndex] = {
-      ...grid.items[itemIndex],
-      ...values,
-      style: {
-        height: '100%',
-        width: '100%',
-      },
-      exportCsv: false,
-    };
-
-    if (
-      grid.items[itemIndex].api &&
-      this.props.grid.items[itemIndex].api !== grid.items[itemIndex].api
-    ) {
-      this.props.dispatch({
-        type: 'http/fetch',
-        payload: {
-          id: this.state.currId,
-          api: grid.items[itemIndex].api,
-          params: {
-            start: this.props.rangePickerValue[0].valueOf(),
-            end: this.props.rangePickerValue[1].valueOf(),
-          },
-        },
-      });
-    }
-
-    this.props.dispatch({
-      type: 'grid/updateState',
-      payload: { ...grid },
-    });
-  }
-
-  onRemoveItem(i) {
-    this.props.dispatch({
-      type: 'grid/updateState',
-      payload: {
-        layouts: {
-          lg: _.reject(this.props.grid.layouts.lg, { i }),
-          md: _.reject(this.props.grid.layouts.md, { i }),
-          sm: _.reject(this.props.grid.layouts.sm, { i }),
-          xs: _.reject(this.props.grid.layouts.xs, { i }),
-          xxs: _.reject(this.props.grid.layouts.xxs, { i }),
-        },
-        items: _.reject(this.props.grid.items, { i }),
-      },
-    });
-  }
-
   onSaveGrid() {
     this.props.dispatch({
       type: 'grid/post',
@@ -301,9 +174,192 @@ export default class ReactGridLayoutTest extends PureComponent {
     });
   }
 
+  onAddItem() {
+    // Makes a deep copy of the grid state and component state to modify
+    const grid = JSON.parse(JSON.stringify(this.props.grid));
+    const state = JSON.parse(JSON.stringify(this.state));
+    const newId = uuid();
+
+    // Adds the new item to all the layouts for each breakpoint
+    // y = -0.0001 so that the new item is inserted at the top left.
+    for (const col in this.props.cols) {
+      if (Object.prototype.hasOwnProperty.call(this.props.cols, col)) {
+        const newItem = {
+          i: newId,
+          x: 0,
+          y: -0.0001,
+          w: 8,
+          h: 8,
+        };
+        grid.layouts[col].push(newItem);
+      }
+    }
+
+    // Creates new initial item with new id
+    const newItem = {
+      i: newId,
+    };
+
+    grid.items.push(newItem);
+
+    // Updates the grid state
+    this.props.dispatch({
+      type: 'grid/updateState',
+      payload: { ...grid },
+    });
+
+    state.visible = true;
+    state.currItem = {
+      i: newId,
+      new: true,
+    };
+    this.setState(state);
+  }
+
+  onSubmit() {
+    const { form } = this.formRef.props;
+    const state = JSON.parse(JSON.stringify(this.state));
+
+    form.validateFields(err => {
+      if (err) {
+        return;
+      }
+
+      this.updateItem();
+
+      form.resetFields();
+      state.visible = false;
+      state.currItem = {
+        new: false,
+      };
+      this.setState(state);
+    });
+  }
+
+  onCancel() {
+    const { form } = this.formRef.props;
+    const state = JSON.parse(JSON.stringify(this.state));
+
+    if (this.state.currItem.new) {
+      this.onRemoveItem(state.currItem.i);
+    } else {
+      this.updateItem(state.prevItem);
+    }
+
+    form.resetFields();
+    state.visible = false;
+    state.currItem = {
+      new: false,
+    };
+    state.prevItem = {};
+    this.setState(state);
+  }
+
+  saveFormRef(formRef) {
+    this.formRef = formRef;
+  }
+
+  editGridItem(item) {
+    const state = JSON.parse(JSON.stringify(this.state));
+    state.visible = true;
+    state.currItem = {
+      new: false,
+      ...item,
+    };
+    state.prevItem = {
+      ...item,
+    };
+    this.setState(state);
+  }
+
+  updateItem(values) {
+    // Makes a deep copy of the grid state and component state to modify
+    const grid = JSON.parse(JSON.stringify(this.props.grid));
+    const state = JSON.parse(JSON.stringify(this.state));
+    // Finds the current item in order to modify settings
+    const itemIndex = grid.items.findIndex(anItem => anItem.i === this.state.currItem.i);
+
+    if (grid.items[itemIndex]) {
+      // Modifies the current item settings with new values from form and existing values
+      grid.items[itemIndex] = {
+        ...grid.items[itemIndex],
+        ...values,
+        style: {
+          height: '100%',
+          width: '100%',
+        },
+        exportCsv: true,
+      };
+
+      state.currItem = {
+        ...state.currItem,
+        ...values,
+      };
+
+      this.setState(state);
+
+      // If no parameters are provided in updateItem, form must be submitting so update y positions in
+      // the layouts from -0.0001 to 0 so that new items added later are added to the top of the page.
+      if (!values && state.currItem.new) {
+        for (const col in this.props.cols) {
+          if (Object.prototype.hasOwnProperty.call(this.props.cols, col)) {
+            const layoutItemIndex = grid.layouts[col].findIndex(
+              anItem => anItem.i === this.state.currItem.i
+            );
+            if (layoutItemIndex !== -1) {
+              grid.layouts[col][layoutItemIndex].y = 0;
+            }
+          }
+        }
+      }
+
+      // If an api value is provided and it is different from the current value, dispatch
+      // a http fetch to get the data from the api.
+      if (
+        grid.items[itemIndex].api &&
+        this.props.grid.items[itemIndex].api !== grid.items[itemIndex].api
+      ) {
+        this.props.dispatch({
+          type: 'http/fetch',
+          payload: {
+            id: grid.items[itemIndex].i,
+            api: grid.items[itemIndex].api,
+            params: {
+              start: this.props.rangePickerValue[0].valueOf(),
+              end: this.props.rangePickerValue[1].valueOf(),
+            },
+          },
+        });
+      }
+
+      // Updates the grid state
+      this.props.dispatch({
+        type: 'grid/updateState',
+        payload: { ...grid },
+      });
+    }
+  }
+
+  onRemoveItem(i) {
+    this.props.dispatch({
+      type: 'grid/updateState',
+      payload: {
+        layouts: {
+          lg: _.reject(this.props.grid.layouts.lg, { i }),
+          md: _.reject(this.props.grid.layouts.md, { i }),
+          sm: _.reject(this.props.grid.layouts.sm, { i }),
+          xs: _.reject(this.props.grid.layouts.xs, { i }),
+          xxs: _.reject(this.props.grid.layouts.xxs, { i }),
+        },
+        items: _.reject(this.props.grid.items, { i }),
+      },
+    });
+  }
+
   createElement(el) {
     let ComponentType = null;
     let data = {};
+    let isLoading = false;
     const { i } = el;
 
     const item = this.props.grid.items.find(anItem => {
@@ -314,12 +370,16 @@ export default class ReactGridLayoutTest extends PureComponent {
       ComponentType = this.components[item.type];
       if (this.props.http[item.i]) {
         data = this.props.http[item.i];
+        isLoading = this.props.http[item.i].loading || false;
       }
     }
 
     return (
       <div key={i} data-grid={el} className="nube-grid-item">
         <span className="nube-drag-handle" />
+        <span className="nube-grid-edit" onClick={this.editGridItem.bind(this, item)}>
+          <Icon type="edit" />
+        </span>
         <span className="nube-grid-remove" onClick={this.onRemoveItem.bind(this, i)}>
           x
         </span>
@@ -327,11 +387,10 @@ export default class ReactGridLayoutTest extends PureComponent {
         {ComponentType && (
           <Spin
             wrapperClassName="nube-spinner"
-            spinning={data.loading}
+            spinning={isLoading}
             indicator={
               <Icon type="loading-3-quarters" style={{ fontSize: 30, color: '#399' }} spin />
             }
-            delay={300}
           >
             {React.createElement(
               ComponentType,
@@ -352,10 +411,18 @@ export default class ReactGridLayoutTest extends PureComponent {
 
     return (
       <Fragment>
-        <button onClick={this.addGridItem}>Add item</button>
-        <button onClick={this.onSaveGrid}>Save</button>
-        <button onClick={this.onLoadGrid}>Load</button>
-        <button onClick={this.onResetGrid}>Reset</button>
+        <button onClick={this.onAddItem} disabled={this.state.visible}>
+          Add
+        </button>
+        <button onClick={this.onSaveGrid} disabled={this.state.visible}>
+          Save
+        </button>
+        <button onClick={this.onLoadGrid} disabled={this.state.visible}>
+          Load
+        </button>
+        <button onClick={this.onResetGrid} disabled={this.state.visible}>
+          Reset
+        </button>
         <ResponsiveReactGridLayout
           className="nube-grid-layout"
           cols={cols}
@@ -370,9 +437,10 @@ export default class ReactGridLayoutTest extends PureComponent {
         <CreateItemForm
           wrappedComponentRef={this.saveFormRef}
           visible={this.state.visible}
-          handleFormChange={this.handleFormChange}
-          handleCancel={this.handleCancel}
-          handleSubmit={this.handleSubmit}
+          inputValues={this.state.currItem}
+          onFormChange={this.updateItem}
+          onCancel={this.onCancel}
+          onSubmit={this.onSubmit}
         />
       </Fragment>
     );

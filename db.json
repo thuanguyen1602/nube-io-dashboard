@@ -3,82 +3,82 @@
     "layouts": {
       "lg": [
         {
-          "w": 17,
-          "h": 9,
+          "w": 18,
+          "h": 8,
           "x": 0,
           "y": 0,
-          "i": "ccb57036-0eed-44ab-9d81-bc783a6be357",
+          "i": "8c1c18a6-dbc0-4e2c-bf5f-32100ae535cf",
           "moved": false,
           "static": false
         },
         {
-          "w": 7,
-          "h": 9,
-          "x": 17,
+          "w": 6,
+          "h": 8,
+          "x": 18,
           "y": 0,
-          "i": "6e5c12b2-2432-4be1-9a28-b10681f444c6",
+          "i": "3c937c52-615a-4a62-accf-e1b78997c84e",
           "moved": false,
           "static": false
         },
         {
-          "w": 7,
-          "h": 9,
+          "w": 18,
+          "h": 8,
+          "x": 6,
+          "y": 8,
+          "i": "f1cde9fc-3db9-4e26-9b8d-7a28ac79737a",
+          "moved": false,
+          "static": false
+        },
+        {
+          "w": 6,
+          "h": 8,
           "x": 0,
-          "y": 16,
-          "i": "77f94f8a-06ed-42c0-bfae-962b853d2d73",
-          "moved": false,
-          "static": false
-        },
-        {
-          "w": 17,
-          "h": 9,
-          "x": 7,
-          "y": 16,
-          "i": "fb67344a-8594-4005-8651-c3df724e804e",
+          "y": 8,
+          "i": "45486e65-85e6-4e48-9c12-609826a6c11f",
           "moved": false,
           "static": false
         },
         {
           "w": 24,
-          "h": 7,
+          "h": 10,
           "x": 0,
-          "y": 9,
-          "i": "fde93906-2203-4584-8801-cd28c3e88b47",
+          "y": 16,
+          "i": "86809bca-5599-4538-950e-78e6f270331d",
           "moved": false,
           "static": false
         }
       ],
       "md": [
         {
-          "i": "ccb57036-0eed-44ab-9d81-bc783a6be357",
+          "i": "8c1c18a6-dbc0-4e2c-bf5f-32100ae535cf",
           "x": 0,
           "y": 0,
           "w": 8,
           "h": 8
         },
         {
-          "i": "6e5c12b2-2432-4be1-9a28-b10681f444c6",
+          "i": "3c937c52-615a-4a62-accf-e1b78997c84e",
           "x": 0,
           "y": 0,
           "w": 8,
           "h": 8
         },
         {
-          "i": "77f94f8a-06ed-42c0-bfae-962b853d2d73",
+          "i": "f1cde9fc-3db9-4e26-9b8d-7a28ac79737a",
           "x": 0,
           "y": 0,
           "w": 8,
           "h": 8
         },
         {
-          "i": "fb67344a-8594-4005-8651-c3df724e804e",
+          "i": "45486e65-85e6-4e48-9c12-609826a6c11f",
           "x": 0,
           "y": 0,
           "w": 8,
           "h": 8
         },
         {
-          "i": "fde93906-2203-4584-8801-cd28c3e88b47",
+          "i": "86809bca-5599-4538-950e-78e6f270331d",
           "x": 0,
           "y": 0,
           "w": 8,
@@ -87,35 +87,35 @@
       ],
       "sm": [
         {
-          "i": "ccb57036-0eed-44ab-9d81-bc783a6be357",
+          "i": "8c1c18a6-dbc0-4e2c-bf5f-32100ae535cf",
           "x": 0,
           "y": 0,
           "w": 8,
           "h": 8
         },
         {
-          "i": "6e5c12b2-2432-4be1-9a28-b10681f444c6",
+          "i": "3c937c52-615a-4a62-accf-e1b78997c84e",
           "x": 0,
           "y": 0,
           "w": 8,
           "h": 8
         },
         {
-          "i": "77f94f8a-06ed-42c0-bfae-962b853d2d73",
+          "i": "f1cde9fc-3db9-4e26-9b8d-7a28ac79737a",
           "x": 0,
           "y": 0,
           "w": 8,
           "h": 8
         },
         {
-          "i": "fb67344a-8594-4005-8651-c3df724e804e",
+          "i": "45486e65-85e6-4e48-9c12-609826a6c11f",
           "x": 0,
           "y": 0,
           "w": 8,
           "h": 8
         },
         {
-          "i": "fde93906-2203-4584-8801-cd28c3e88b47",
+          "i": "86809bca-5599-4538-950e-78e6f270331d",
           "x": 0,
           "y": 0,
           "w": 8,
@@ -124,35 +124,35 @@
       ],
       "xs": [
         {
-          "i": "ccb57036-0eed-44ab-9d81-bc783a6be357",
+          "i": "8c1c18a6-dbc0-4e2c-bf5f-32100ae535cf",
           "x": 0,
           "y": 0,
           "w": 8,
           "h": 8
         },
         {
-          "i": "6e5c12b2-2432-4be1-9a28-b10681f444c6",
+          "i": "3c937c52-615a-4a62-accf-e1b78997c84e",
           "x": 0,
           "y": 0,
           "w": 8,
           "h": 8
         },
         {
-          "i": "77f94f8a-06ed-42c0-bfae-962b853d2d73",
+          "i": "f1cde9fc-3db9-4e26-9b8d-7a28ac79737a",
           "x": 0,
           "y": 0,
           "w": 8,
           "h": 8
         },
         {
-          "i": "fb67344a-8594-4005-8651-c3df724e804e",
+          "i": "45486e65-85e6-4e48-9c12-609826a6c11f",
           "x": 0,
           "y": 0,
           "w": 8,
           "h": 8
         },
         {
-          "i": "fde93906-2203-4584-8801-cd28c3e88b47",
+          "i": "86809bca-5599-4538-950e-78e6f270331d",
           "x": 0,
           "y": 0,
           "w": 8,
@@ -161,35 +161,35 @@
       ],
       "xxs": [
         {
-          "i": "ccb57036-0eed-44ab-9d81-bc783a6be357",
+          "i": "8c1c18a6-dbc0-4e2c-bf5f-32100ae535cf",
           "x": 0,
           "y": 0,
           "w": 8,
           "h": 8
         },
         {
-          "i": "6e5c12b2-2432-4be1-9a28-b10681f444c6",
+          "i": "3c937c52-615a-4a62-accf-e1b78997c84e",
           "x": 0,
           "y": 0,
           "w": 8,
           "h": 8
         },
         {
-          "i": "77f94f8a-06ed-42c0-bfae-962b853d2d73",
+          "i": "f1cde9fc-3db9-4e26-9b8d-7a28ac79737a",
           "x": 0,
           "y": 0,
           "w": 8,
           "h": 8
         },
         {
-          "i": "fb67344a-8594-4005-8651-c3df724e804e",
+          "i": "45486e65-85e6-4e48-9c12-609826a6c11f",
           "x": 0,
           "y": 0,
           "w": 8,
           "h": 8
         },
         {
-          "i": "fde93906-2203-4584-8801-cd28c3e88b47",
+          "i": "86809bca-5599-4538-950e-78e6f270331d",
           "x": 0,
           "y": 0,
           "w": 8,
@@ -199,115 +199,98 @@
     },
     "items": [
       {
-        "i": "ccb57036-0eed-44ab-9d81-bc783a6be357",
-        "width": 88,
-        "height": 44,
-        "onColour": "#399",
-        "offColour": "#c1c1c0",
-        "datasets": 3,
-        "type": "Bar",
-        "yNames": [
-          "Peak",
-          "Off-Peak",
-          "Shoulder"
-        ],
-        "title": "Daily Electrical Usage",
-        "api": "/api/electrical_data",
-        "style": {
-          "height": "100%",
-          "width": "100%"
-        },
-        "exportCsv": false,
-        "fileName": "Daily Electrical Usage",
-        "unit": "kWh"
-      },
-      {
-        "i": "6e5c12b2-2432-4be1-9a28-b10681f444c6",
-        "type": "Guage",
-        "width": 88,
-        "height": 44,
-        "min": 0,
-        "max": 600,
-        "api": "/api/gas_data",
-        "style": {
-          "height": "100%",
-          "width": "100%"
-        },
-        "exportCsv": false,
-        "datasets": 1,
-        "yNames": [
-          null
-        ],
-        "unit": "W",
-        "title": "Current Usage",
-        "name": "Electrical"
-      },
-      {
-        "i": "77f94f8a-06ed-42c0-bfae-962b853d2d73",
-        "datasets": 1,
-        "type": "Switch",
-        "yNames": [
-          null
-        ],
-        "width": 400,
-        "height": 200,
-        "min": 0,
-        "max": 100,
-        "api": "/api/gas_data",
-        "style": {
-          "height": "100%",
-          "width": "100%"
-        },
-        "exportCsv": false,
-        "title": "Switch",
-        "onColour": "darkgreen",
-        "offColour": "darkred"
-      },
-      {
-        "i": "fb67344a-8594-4005-8651-c3df724e804e",
-        "min": 0,
-        "max": 100,
-        "datasets": 3,
-        "yNames": [
-          "Peak",
-          "Off-Peak",
-          "Shoulder"
-        ],
-        "type": "Area",
-        "width": 88,
-        "height": 44,
-        "api": "/api/electrical_data",
-        "style": {
-          "height": "100%",
-          "width": "100%"
-        },
-        "exportCsv": false,
-        "title": "Daily Electrical Usage",
-        "fileName": "Daily Electrical Usage",
-        "unit": "kWh"
-      },
-      {
-        "i": "fde93906-2203-4584-8801-cd28c3e88b47",
-        "min": 0,
-        "max": 100,
-        "width": 88,
-        "height": 44,
-        "datasets": 1,
+        "i": "8c1c18a6-dbc0-4e2c-bf5f-32100ae535cf",
         "type": "Line",
+        "width": 88,
+        "height": 44,
+        "min": 0,
+        "max": 100,
+        "api": "/api/electrical_data",
+        "style": {
+          "height": "100%",
+          "width": "100%"
+        },
+        "exportCsv": true,
+        "unit": "kWh",
         "yNames": [
-          "Water"
+          "Peak",
+          "Off-Peak",
+          "Shoulder"
+        ]
+      },
+      {
+        "i": "3c937c52-615a-4a62-accf-e1b78997c84e",
+        "type": "Doughnut",
+        "width": 88,
+        "height": 44,
+        "min": 0,
+        "max": 100,
+        "api": "/api/electrical_data",
+        "style": {
+          "height": "100%",
+          "width": "100%"
+        },
+        "exportCsv": true,
+        "yNames": [
+          "Peak",
+          "Off-Peak",
+          "Shoulder"
         ],
+        "fileName": "filename",
+        "unit": "kWh"
+      },
+      {
+        "i": "f1cde9fc-3db9-4e26-9b8d-7a28ac79737a",
+        "width": 88,
+        "height": 44,
+        "min": 0,
+        "max": 100,
+        "type": "Area",
+        "api": "/api/electrical_data",
+        "style": {
+          "height": "100%",
+          "width": "100%"
+        },
+        "exportCsv": true,
+        "yNames": [
+          "Peak",
+          "Off-Peak",
+          "Shoulder"
+        ],
+        "unit": "kWh"
+      },
+      {
+        "i": "45486e65-85e6-4e48-9c12-609826a6c11f",
+        "width": 88,
+        "height": 44,
+        "min": 0,
+        "max": 100,
+        "type": "Guage",
         "api": "/api/water_data",
         "style": {
           "height": "100%",
           "width": "100%"
         },
-        "exportCsv": false,
-        "title": "Water",
-        "fileName": "Water",
-        "unit": "kL",
-        "colour": [
-          "darkblue"
+        "exportCsv": true,
+        "unit": "Watts"
+      },
+      {
+        "i": "86809bca-5599-4538-950e-78e6f270331d",
+        "width": 88,
+        "height": 44,
+        "type": "Bar",
+        "min": 0,
+        "max": 100,
+        "api": "/api/electrical_data",
+        "style": {
+          "height": "100%",
+          "width": "100%"
+        },
+        "exportCsv": true,
+        "yNames": [
+          "Peak",
+          "Off-Peak",
+          "Shoulder"
         ]
       }
     ]

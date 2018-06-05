@@ -14,18 +14,24 @@ export function homeData(params) {
 
   const water = {
     xValues: [],
-    yValues: [],
+    yValues: {
+      values: [],
+    },
     sum: 0,
   };
 
   const gas = {
     xValues: [],
-    yValues: [],
+    yValues: {
+      values: [],
+    },
     sum: 0,
   };
   const thermal = {
     xValues: [],
-    yValues: [],
+    yValues: {
+      values: [],
+    },
     sum: 0,
   };
 
@@ -48,27 +54,27 @@ export function homeData(params) {
 
   for (let i = 0; i < numDays; i++) {
     water.xValues.push(day.format('DD-MM-YYYY'));
-    water.yValues.push(Math.floor(Math.random() * 100 + 100));
+    water.yValues.values.push(Math.floor(Math.random() * 100 + 100));
     day = moment(day.add(1, 'day'));
-    water.sum += water.yValues[i];
+    water.sum += water.yValues.values[i];
   }
 
   day = startDate.startOf('day');
 
   for (let i = 0; i < numDays; i++) {
     gas.xValues.push(day.format('DD-MM-YYYY'));
-    gas.yValues.push(Math.floor(Math.random() * 100 + 100));
+    gas.yValues.values.push(Math.floor(Math.random() * 100 + 100));
     day = moment(day.add(1, 'day'));
-    gas.sum += gas.yValues[i];
+    gas.sum += gas.yValues.values[i];
   }
 
   day = startDate.startOf('day');
 
   for (let i = 0; i < numDays; i++) {
     thermal.xValues.push(day.format('DD-MM-YYYY'));
-    thermal.yValues.push(Math.floor(Math.random() * 100 + 100));
+    thermal.yValues.values.push(Math.floor(Math.random() * 100 + 100));
     day = moment(day.add(1, 'day'));
-    thermal.sum += thermal.yValues[i];
+    thermal.sum += thermal.yValues.values[i];
   }
 
   return {

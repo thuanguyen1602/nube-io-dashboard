@@ -78,10 +78,6 @@ export async function queryAlerts() {
   return request('/api/alerts');
 }
 
-
-
-
-
 export async function queryApartmentData(params) {
   return request(`/api/apartment_data?${stringify(params)}`);
 }
@@ -118,7 +114,9 @@ export function postGrid(params) {
 }
 
 export async function httpGet(req) {
-  return request(`${req.api}?${stringify(req.params)}`);
+  return request(`${req.api}?${stringify(req.params)}`, {
+    doNotReroute: true,
+  });
 }
 
 export async function httpPost(req) {
