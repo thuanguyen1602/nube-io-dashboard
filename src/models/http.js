@@ -1,4 +1,3 @@
-import { message } from 'antd';
 import { httpGet, httpPost } from '../services/api';
 
 export default {
@@ -25,10 +24,23 @@ export default {
         },
       });
     },
-    *post({ payload }, { call }) {
+    *post({ payload }, { call, put }) {
+      yield put({
+        type: 'updateState',
+        payload: {
+          id: payload.id,
+          loading: true,
+        },
+      });
       const response = yield call(httpPost, payload);
-      console.log(response);
-      message.success('Saved!');
+      yield put({
+        type: 'updateState',
+        payload: {
+          id: payload.id,
+          loading: false,
+          response,
+        },
+      });
     },
   },
 

@@ -6,6 +6,7 @@ import Area from './Area';
 import Line from './Line';
 import Doughnut from './Doughnut';
 import Switch from './Switch';
+import NubeSlider from './Slider';
 
 const ECharts = {
   ChartCard,
@@ -16,6 +17,18 @@ const ECharts = {
   Line,
   Doughnut,
   Switch,
+  NubeSlider,
 };
 
-export { ECharts as default, ChartCard, Field, Bar, Guage, Area, Line, Doughnut, Switch };
+export {
+  ECharts as default,
+  ChartCard,
+  Field,
+  Bar,
+  Guage,
+  Area,
+  Line,
+  Doughnut,
+  Switch,
+  NubeSlider,
+};

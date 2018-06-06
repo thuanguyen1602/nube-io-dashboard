@@ -160,6 +160,7 @@ export default Form.create({
         Guage: guageForm,
         Switch: switchForm,
         Doughnut: barForm,
+        Slider: guageForm,
       };
 
       return (
@@ -187,6 +188,7 @@ export default Form.create({
                           <Option value="Guage">Guage</Option>
                           <Option value="Switch">Switch</Option>
                           <Option value="Doughnut">Doughnut</Option>
+                          <Option value="Slider">Slider</Option>
                         </Select>
                       )}
                     </FormItem>

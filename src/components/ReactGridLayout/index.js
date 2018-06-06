@@ -5,7 +5,7 @@ import { connect } from 'dva';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 import _ from 'lodash';
 import CreateItemForm from './CreateItemForm';
-import { Bar, Guage, Area, Line, Switch, Doughnut } from './../ECharts';
+import { Bar, Guage, Area, Line, Switch, Doughnut, NubeSlider } from './../ECharts';
 import './index.less';
 
 let ResponsiveReactGridLayout = WidthProvider(Responsive);
@@ -32,6 +32,8 @@ export default class ReactGridLayoutTest extends PureComponent {
         new: false,
       },
       prevItem: {},
+      preventCollision: false,
+      compactType: 'vertical',
     };
 
     this.components = {
@@ -41,6 +43,7 @@ export default class ReactGridLayoutTest extends PureComponent {
       Guage,
       Switch,
       Doughnut,
+      Slider: NubeSlider,
     };
 
     this.onSaveGrid = this.onSaveGrid.bind(this);
@@ -48,11 +51,13 @@ export default class ReactGridLayoutTest extends PureComponent {
     this.onResetGrid = this.onResetGrid.bind(this);
     this.onBreakpointChange = this.onBreakpointChange.bind(this);
     this.onAddItem = this.onAddItem.bind(this);
+    this.onToggleCollisions = this.onToggleCollisions.bind(this);
     this.onSubmit = this.onSubmit.bind(this);
     this.onCancel = this.onCancel.bind(this);
     this.saveFormRef = this.saveFormRef.bind(this);
     this.updateItem = this.updateItem.bind(this);
     this.editGridItem = this.editGridItem.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
 
   static get defaultProps() {
@@ -174,6 +179,19 @@ export default class ReactGridLayoutTest extends PureComponent {
     });
   }
 
+  onToggleCollisions() {
+    const state = JSON.parse(JSON.stringify(this.state));
+
+    state.preventCollision = !state.preventCollision;
+    if (state.preventCollision) {
+      state.compactType = null;
+    } else {
+      state.compactType = 'vertical';
+    }
+
+    this.setState(state);
+  }
+
   onAddItem() {
     // Makes a deep copy of the grid state and component state to modify
     const grid = JSON.parse(JSON.stringify(this.props.grid));
@@ -253,10 +271,6 @@ export default class ReactGridLayoutTest extends PureComponent {
     };
     state.prevItem = {};
     this.setState(state);
-  }
-
-  saveFormRef(formRef) {
-    this.formRef = formRef;
   }
 
   editGridItem(item) {
@@ -356,6 +370,22 @@ export default class ReactGridLayoutTest extends PureComponent {
     });
   }
 
+  saveFormRef(formRef) {
+    this.formRef = formRef;
+  }
+
+  onChange(value, props) {
+    console.log(value, props);
+    this.props.dispatch({
+      type: 'http/post',
+      payload: {
+        id: props.i,
+        api: props.api,
+        body: { value },
+      },
+    });
+  }
+
   createElement(el) {
     let ComponentType = null;
     let data = {};
@@ -397,6 +427,7 @@ export default class ReactGridLayoutTest extends PureComponent {
               {
                 ...item,
                 ...data,
+                onChange: this.onChange,
               },
               null
             )}
@@ -407,7 +438,7 @@ export default class ReactGridLayoutTest extends PureComponent {
   }
 
   render() {
-    const { cols, grid, loadingGrid } = this.props;
+    const { cols, grid } = this.props;
 
     return (
       <Fragment>
@@ -423,6 +454,9 @@ export default class ReactGridLayoutTest extends PureComponent {
         <button onClick={this.onResetGrid} disabled={this.state.visible}>
           Reset
         </button>
+        <button onClick={this.onToggleCollisions} disabled={this.state.visible}>
+          {this.state.preventCollision ? 'Enable Collisions' : 'Disable Collisions'}
+        </button>
         <ResponsiveReactGridLayout
           className="nube-grid-layout"
           cols={cols}
@@ -431,6 +465,8 @@ export default class ReactGridLayoutTest extends PureComponent {
           onLayoutChange={(layout, layouts) => this.onLayoutChange(layout, layouts)}
           onBreakpointChange={this.onBreakpointChange}
           draggableHandle=".nube-drag-handle"
+          compactType={this.state.compactType}
+          preventCollision={this.state.preventCollision}
         >
           {_.map(grid.layouts[this.state.breakpoint], el => this.createElement(el))}
         </ResponsiveReactGridLayout>

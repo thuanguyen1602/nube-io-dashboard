@@ -3,18 +3,19 @@ import { Switch as AntSwitch } from 'antd';
 import styled from 'styled-components';
 
 class Switch extends Component {
-  state = {
-    checked: true,
-  };
-
   onChange = value => {
-    this.setState({
-      checked: value,
-    });
+    this.props.onChange(value, this.props);
   };
 
   render() {
-    const { title = '', height = 44, width, onColour = '#399', offColour = '#c1c1c0' } = this.props;
+    const {
+      title = '',
+      height = 44,
+      width,
+      onColour = '#399',
+      offColour = '#c1c1c0',
+      value,
+    } = this.props;
 
     let formattedWidth = width;
 
@@ -38,7 +39,7 @@ class Switch extends Component {
         background-color: ${onColour} !important;
       }
       .ant-switch-checked::after {
-        margin-left: ${-height + 4}px !important;
+        margin-left: ${-height + 2}px !important;
       }
     `;
 
@@ -53,7 +54,7 @@ class Switch extends Component {
       <Fragment>
         {title && <h2>{title}</h2>}
         <StyleWrapper>
-          <AntSwitch style={style} checked={this.state.checked} onChange={this.onChange} />
+          <AntSwitch checked={value} style={style} onChange={this.onChange} />
         </StyleWrapper>
       </Fragment>
     );
