@@ -79,6 +79,9 @@ export const getRouterData = app => {
     '/electrical': {
       component: dynamicWrapper(app, ['electrical'], () => import('../routes/Electrical')),
     },
+    '/map': {
+      component: dynamicWrapper(app, ['map'], () => import('../routes/Map/index.js')),
+    },
     '/water': {
       component: dynamicWrapper(app, ['electrical'], () => import('../routes/Water')),
     },
@@ -92,7 +95,9 @@ export const getRouterData = app => {
       component: dynamicWrapper(app, ['apartments'], () => import('../routes/Apartments')),
     },
     '/trends': {
-      component: dynamicWrapper(app, ['http', 'home', 'electrical', 'grid'], () => import('../routes/Trends')),
+      component: dynamicWrapper(app, ['http', 'home', 'electrical', 'grid'], () =>
+        import('../routes/Trends')
+      ),
     },
     '/alerts': {
       component: dynamicWrapper(app, ['electrical'], () => import('../routes/Alerts')),

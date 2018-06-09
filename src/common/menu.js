@@ -7,6 +7,11 @@ const menuData = [
     path: 'home',
   },
   {
+    name: 'Map',
+    icon: 'map',
+    path: 'map',
+  },
+  {
     name: 'Electrical',
     icon: 'dashboard',
     path: 'electrical',
@@ -25,7 +30,7 @@ const menuData = [
     name: 'Thermal',
     icon: 'dashboard',
     path: 'thermal',
-  }, 
+  },
   {
     name: 'Apartments',
     icon: 'team',
